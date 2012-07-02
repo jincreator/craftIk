@@ -1,5 +1,5 @@
 = craftIk =
 A Custom [[http://www.minecraft.net/|Minecraft]] Server Written in C.
 
-Copyright (c) 2012, SI Cyrusian. All Rights Reserved.
+Copyright (c) 2004-2012, [[http://si.cyrusian.com|SI Cyrusian]]. All Rights Reserved.\\
 Minecraft is a trademark of [[http://www.mojang.com/|Mojang AB]]. Copyright (c) 2009-2012, Mojang AB. All Rights Reserved.
