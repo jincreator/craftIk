@@ -1,0 +1,6 @@
+core.eol=lf
+core.autoclrf=input
+
+*.creole text
+*.gitattributes binary
+*.gitignore binary
