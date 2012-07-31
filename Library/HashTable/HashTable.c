@@ -44,7 +44,7 @@ void HT_Set(HashTable* HT, void* Key, void* Value){
 void* HT_Get(HashTable* HT, void* Key){
 	int HashVal= HT->HashFunc(Key)%HT->TableSize;
 
-	while(HT->TableHead[HashVal].Key!= Key){
+	while(HT->TableHead[HashVal].Status== EMPTY|| HT->TableHead[HashVal].Key!= Key){
 		HashVal++;
 	}
 	return HT->TableHead[HashVal].Value;
@@ -53,7 +53,7 @@ void* HT_Get(HashTable* HT, void* Key){
 int HT_Del(HashTable* HT, void* Key){
 	int HashVal= HT->HashFunc(Key)%HT->TableSize;
 
-	while(HT->TableHead[HashVal].Key!= Key){
+	while(HT->TableHead[HashVal].Status== EMPTY|| HT->TableHead[HashVal].Key!= Key){
 		HashVal++;
 	}
 
