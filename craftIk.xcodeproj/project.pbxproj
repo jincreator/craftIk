@@ -11,6 +11,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		631649E715B9851E008F0142 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 631649E315B9851D008F0142 /* CoreString.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 631649DC15B9851D008F0142;
+			remoteInfo = CoreString;
+		};
 		6329819815B200710096A247 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6329819415B200700096A247 /* WatchFox.xcodeproj */;
@@ -24,6 +31,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 632981C315B201EF0096A247;
 			remoteInfo = ObjectSystem;
+		};
+		6345646515BA1AF1000196FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 631649E315B9851D008F0142 /* CoreString.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63A91AEC15BA0FA6005B156A;
+			remoteInfo = CoreStringTest;
+		};
+		6345646915BA1AF1000196FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 632981CA15B201EF0096A247 /* ObjectSystem.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63A91AD615B9E78A005B156A;
+			remoteInfo = ObjectSystemTest;
+		};
+		63A91ACD15B9E63A005B156A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 63A91AC915B9E63A005B156A /* Seatest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 63A91AC215B9E63A005B156A;
+			remoteInfo = Seatest;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -40,11 +68,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		631649E315B9851D008F0142 /* CoreString.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreString.xcodeproj; path = Library/CoreString/CoreString.xcodeproj; sourceTree = "<group>"; };
 		6329819415B200700096A247 /* WatchFox.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = WatchFox.xcodeproj; path = WatchFox/WatchFox.xcodeproj; sourceTree = "<group>"; };
 		632981CA15B201EF0096A247 /* ObjectSystem.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ObjectSystem.xcodeproj; path = Library/ObjectSystem/ObjectSystem.xcodeproj; sourceTree = "<group>"; };
 		632981D215B2022F0096A247 /* CTTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CTTypes.h; path = Library/CTTypes.h; sourceTree = "<group>"; };
 		632981D515B204DE0096A247 /* ProcessManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ProcessManager.c; path = ProcessManager/ProcessManager.c; sourceTree = SOURCE_ROOT; };
 		63A10D7C15B1FFE600ED5B21 /* craftIk */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = craftIk; sourceTree = BUILT_PRODUCTS_DIR; };
+		63A91AC915B9E63A005B156A /* Seatest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Seatest.xcodeproj; path = Library/Seatest/Seatest.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +88,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		631649E415B9851D008F0142 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				631649E815B9851E008F0142 /* libCoreString.a */,
+				6345646615BA1AF1000196FB /* CoreStringTest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6329817915B200380096A247 /* WatchFox */ = {
 			isa = PBXGroup;
 			children = (
@@ -69,7 +108,9 @@
 		6329817A15B2003E0096A247 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				631649E315B9851D008F0142 /* CoreString.xcodeproj */,
 				632981CA15B201EF0096A247 /* ObjectSystem.xcodeproj */,
+				63A91AC915B9E63A005B156A /* Seatest.xcodeproj */,
 				632981D215B2022F0096A247 /* CTTypes.h */,
 			);
 			name = Library;
@@ -78,7 +119,7 @@
 		6329819515B200700096A247 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6329819915B200710096A247 /* WatchFox */,
+				6329819915B200710096A247 /* craftIk_run */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -87,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				632981CF15B201F00096A247 /* libObjectSystem.a */,
+				6345646A15BA1AF1000196FB /* ObjectSystemTest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,6 +158,14 @@
 			);
 			name = "Process Manager";
 			path = craftIk;
+			sourceTree = "<group>";
+		};
+		63A91ACA15B9E63A005B156A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				63A91ACE15B9E63A005B156A /* libSeatest.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -159,8 +209,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 631649E415B9851D008F0142 /* Products */;
+					ProjectRef = 631649E315B9851D008F0142 /* CoreString.xcodeproj */;
+				},
+				{
 					ProductGroup = 632981CB15B201EF0096A247 /* Products */;
 					ProjectRef = 632981CA15B201EF0096A247 /* ObjectSystem.xcodeproj */;
+				},
+				{
+					ProductGroup = 63A91ACA15B9E63A005B156A /* Products */;
+					ProjectRef = 63A91AC915B9E63A005B156A /* Seatest.xcodeproj */;
 				},
 				{
 					ProductGroup = 6329819515B200700096A247 /* Products */;
@@ -175,10 +233,17 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		6329819915B200710096A247 /* WatchFox */ = {
+		631649E815B9851E008F0142 /* libCoreString.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libCoreString.a;
+			remoteRef = 631649E715B9851E008F0142 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6329819915B200710096A247 /* craftIk_run */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
-			path = WatchFox;
+			path = craftIk_run;
 			remoteRef = 6329819815B200710096A247 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -187,6 +252,27 @@
 			fileType = archive.ar;
 			path = libObjectSystem.a;
 			remoteRef = 632981CE15B201F00096A247 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6345646615BA1AF1000196FB /* CoreStringTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = CoreStringTest;
+			remoteRef = 6345646515BA1AF1000196FB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6345646A15BA1AF1000196FB /* ObjectSystemTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = ObjectSystemTest;
+			remoteRef = 6345646915BA1AF1000196FB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		63A91ACE15B9E63A005B156A /* libSeatest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSeatest.a;
+			remoteRef = 63A91ACD15B9E63A005B156A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

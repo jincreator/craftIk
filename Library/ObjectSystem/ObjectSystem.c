@@ -8,53 +8,126 @@
 
 #include "Library/ObjectSystem/ObjectSystem.h"
 #include <stdlib.h>
+#include <string.h>
+
+#define OSOBJECT_SIGNATURE "OSOb"
 
 
-// Typedefing is just for error-detouring.
-// This suppresses LLVM's weird error regarding flexible array member in struct _OSRawObject.
-typedef struct _OSObjectHeader {
-	void (*deallocCallback)(OSObject *);
-	CTUShort referenceCount;
-} OSObjectHeader;
-
-struct _OSRawObject {
-	OSObjectHeader header;
-	char wormhole[];
+struct _OSIvarSet {
+	CTUShort retainCount;
 };
 
+struct _OSObjectHeader {
+	CTChar objSign[4]; // Should be always "OSOb".
+};
 
-OSObject *OSAlloc(size_t objectSize, void (*optionalObjectDeallocCallback)(OSObject *)) {
-	struct _OSRawObject *rawObject=(struct _OSRawObject *)malloc(sizeof(OSObjectHeader)+objectSize);
-	if(rawObject==NULL)
+struct _OSRawObject {
+	struct _OSObjectHeader header;
+	OSMethodSet OSObject;
+	OSIvarSet *OSIvars;
+};
+
+#define OSOBJECTHEADER_SIZE \
+	(sizeof(struct _OSRawObject)-sizeof(struct _OSObject))
+
+
+CTUInteger OSHash(OSObject *);
+BOOL OSIsEqual(OSObject *, OSObject *);
+void OSRelease(OSObject *);
+void OSRetain(OSObject *);
+CTUShort OSRetainCount(OSObject *);
+
+
+OSObject *OSAlloc(size_t objectSize) {
+	if(objectSize==0)
 		return NULL;
 	
-	if(optionalObjectDeallocCallback!=NULL)
-		rawObject->header.deallocCallback=optionalObjectDeallocCallback;
-	rawObject->header.referenceCount=1;
+	struct _OSRawObject *rawObject=(struct _OSRawObject *)
+		malloc(OSOBJECTHEADER_SIZE+objectSize);
+	if(rawObject==NULL) // Frankly, this is near impossible to happen. :p
+		return NULL;
+	memset(rawObject, 0, OSOBJECTHEADER_SIZE+objectSize);
 	
-	return (OSObject *)(rawObject+sizeof(OSObjectHeader));
-}
-
-void OSRelease(OSObject *object) {
-	struct _OSRawObject *rawObject=(struct _OSRawObject *)(object-sizeof(OSObjectHeader));
-	
-	if(rawObject->header.referenceCount==1) {
-		if(rawObject->header.deallocCallback!=NULL)
-			(rawObject->header.deallocCallback)(object);
+	OSIvarSet *ivars=(OSIvarSet *)malloc(sizeof(OSIvarSet));
+	if(ivars==NULL) {
+		free(rawObject);
 		
-		free(object);
+		return NULL;
+	}
+	memset(ivars, 0, sizeof(OSIvarSet));
+	
+	memcpy(rawObject->header.objSign, OSOBJECT_SIGNATURE, 4);
+	rawObject->OSIvars=ivars;
+	
+	rawObject->OSIvars->retainCount=1;
+	rawObject->OSObject.dealloc=NULL;
+	rawObject->OSObject.hash=OSHash;
+	rawObject->OSObject.isEqual=OSIsEqual;
+	rawObject->OSObject.release=OSRelease;
+	rawObject->OSObject.retain=OSRetain;
+	rawObject->OSObject.retainCount=OSRetainCount;
+	
+	return (OSObject *)
+		(((uintptr_t)rawObject)+OSOBJECTHEADER_SIZE);
+}
+
+CTUInteger OSHash(OSObject *self) {
+	if(OSIsValid(self)==NO)
+		return 0;
+	
+	return (CTUInteger)((((uintptr_t)self)-OSOBJECTHEADER_SIZE)>>4);
+}
+
+BOOL OSIsEqual(OSObject *self, OSObject *theOther) {
+	return ((BOOL)(((uintptr_t)self)==((uintptr_t)theOther)) &&
+		OSIsValid(self) &&
+		OSIsValid(theOther));
+}
+
+void OSRelease(OSObject *self) {
+	if(OSIsValid(self)==NO)
+		return;
+	
+	struct _OSRawObject *rawObject=(struct _OSRawObject *)
+		(((uintptr_t)self)-OSOBJECTHEADER_SIZE);
+	
+	if(rawObject->OSIvars->retainCount==1) {
+		if(rawObject->OSObject.dealloc!=NULL)
+			rawObject->OSObject.dealloc(self);
+		memset(rawObject->header.objSign, '\0', 4);
+		rawObject->OSIvars->retainCount=0;
+		
+		free(rawObject);
 	} else
-		--(rawObject->header.referenceCount);
+		--(rawObject->OSIvars->retainCount);
 }
 
-void OSRetain(OSObject *object) {
-	struct _OSRawObject *rawObject=(struct _OSRawObject *)(object-sizeof(OSObjectHeader));
+void OSRetain(OSObject *self) {
+	if(OSIsValid(self)==NO)
+		return;
 	
-	++(rawObject->header.referenceCount);
+	++(self->OSIvars->retainCount);
 }
 
-CTUShort OSRetainCount(OSObject *object) {
-	struct _OSRawObject *rawObject=(struct _OSRawObject *)(object-sizeof(OSObjectHeader));
+CTUShort OSRetainCount(OSObject *self) {
+	if(OSIsValid(self)==NO)
+		return 0;
 	
-	return rawObject->header.referenceCount;
+	return self->OSIvars->retainCount;
+}
+
+BOOL OSIsValid(void *anObject) {
+	if(anObject==NULL)
+		return NO;
+	
+	struct _OSRawObject *rawObject=(struct _OSRawObject *)
+		(((uintptr_t)anObject)-OSOBJECTHEADER_SIZE);
+	
+	return (strncmp(rawObject->header.objSign, OSOBJECT_SIGNATURE, 4)==0 &&
+		rawObject->OSIvars->retainCount>0 &&
+		rawObject->OSObject.hash!=NULL &&
+		rawObject->OSObject.isEqual!=NULL &&
+		rawObject->OSObject.release!=NULL &&
+		rawObject->OSObject.retain!=NULL &&
+		rawObject->OSObject.retainCount!=NULL);
 }

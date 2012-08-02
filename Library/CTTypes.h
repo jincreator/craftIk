@@ -12,9 +12,16 @@
 #include <stdint.h>
 
 
+typedef signed char BOOL;
+#define YES ((BOOL)1)
+#define NO ((BOOL)0)
+
 typedef int16_t CTShort;
 typedef uint16_t CTUShort;
 typedef int32_t CTInteger;
 typedef uint32_t CTUInteger;
+
+typedef char CTChar;
+typedef uint16_t CTUniChar;
 
 #endif
