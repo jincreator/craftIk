@@ -12,6 +12,7 @@
 
 typedef struct _TestObject {
 	OSMethodSet OSObject;
+	OSIvarSet *OSIvars;
 	int Charles;
 	float Marie;
 } TestObject;

@@ -68,6 +68,7 @@ typedef struct _OSIvarSet OSIvarSet;
 struct _OSObject {
 	OSMethodSet OSObject;
 	OSIvarSet *OSIvars;
+	char privateData[];
 };
 
 

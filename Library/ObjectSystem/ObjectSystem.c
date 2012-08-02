@@ -25,6 +25,7 @@ struct _OSRawObject {
 	struct _OSObjectHeader header;
 	OSMethodSet OSObject;
 	OSIvarSet *OSIvars;
+	char privateData[];
 };
 
 #define OSOBJECTHEADER_SIZE \
