@@ -61,12 +61,14 @@ int main(int argc, const char **argv) {
 			free(WFExecArgs);
 			abort();
 		} else if(WFChildProcessID==0) { // on child's side.
-			/* Note: All malloc()ed memories will be automatically
+			/*
+			 * Note: All malloc()ed memories will be automatically
 			 * retrieved by OS upon calling exec*().
 			 */
 			execv(WFExecArgs[0], WFExecArgs);
 			
-			/* Note: Lines below will never be executed upon
+			/*
+			 * Note: Lines below will never be executed upon
 			 * successful exec*() call.
 			 */
 			fprintf(stderr, "ERROR: Something went wrong upon "
@@ -74,8 +76,10 @@ int main(int argc, const char **argv) {
 					"Terminating.\n");
 			abort();
 		} else { // on WatchFox(TM)'s side.
-			// TODO: to be reimplemented to use IPC heartbeat check
-			// with craftIk process.
+			/*
+			 * TODO: to be reimplemented to use IPC heartbeat check
+			 * with craftIk process.
+			 */
 			int tmp_WFChildExitCode=0;
 			
 			waitpid(WFChildProcessID, &tmp_WFChildExitCode, 0);
