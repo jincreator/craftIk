@@ -45,7 +45,10 @@
 				6329819C15B200CC0096A247 /* Dependancy */,
 				6329818815B200700096A247 /* Products */,
 			);
+			indentWidth = 8;
 			sourceTree = "<group>";
+			tabWidth = 8;
+			usesTabs = 1;
 		};
 		6329818815B200700096A247 /* Products */ = {
 			isa = PBXGroup;
@@ -178,6 +181,7 @@
 		6329819215B200700096A247 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../";
 				PRODUCT_NAME = craftIk_run;
 			};
@@ -186,6 +190,7 @@
 		6329819315B200700096A247 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_C_LANGUAGE_STANDARD = c99;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../";
 				PRODUCT_NAME = craftIk_run;
 			};
@@ -210,6 +215,7 @@
 				6329819315B200700096A247 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

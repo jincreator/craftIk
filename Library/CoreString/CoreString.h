@@ -37,7 +37,7 @@ typedef struct _CSString CSString;
 typedef struct _CSMethodSet {
 	CTUInteger (*hash)(CSString *self);
 	BOOL (*isEqualToString)(CSString *self, CSString *theOther);
-	CTUShort (*length)(CSString *self);
+	CTUInteger (*length)(CSString *self);
 } CSMethodSet;
 
 // This structure is a privatized data container. Defined here as a placeholder.
@@ -50,5 +50,8 @@ struct _CSString {
 	CSMethodSet CSString;
 	CSIvarSet *CSIvars;
 };
+
+
+CSString *CSStringFromUTF8String(const char *UTF8CStr);
 
 #endif
