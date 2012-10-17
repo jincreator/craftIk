@@ -3,6 +3,12 @@
 *~
 \#*\#
 
+#GNU Global
+GTAGS
+GRTAGS
+GPATH
+GSYMS
+
 #XCode
 project.xcworkspace
 xcuserdata

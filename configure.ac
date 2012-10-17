@@ -19,7 +19,7 @@ AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
 
 # Compiler Option
-CFLAGS="$CFLAGS -std=c1x"
+CPPFLAGS="$CPPFLAGS -std=c11"
 
 # Checks for libraries.
 
@@ -30,13 +30,13 @@ AC_CHECK_HEADERS([memory.h stddef.h stdint.h stdlib.h string.h unistd.h])
 AC_TYPE_INT16_T
 AC_TYPE_INT32_T
 AC_TYPE_PID_T
-AC_TYPE_SIZE_T
+#AC_TYPE_SIZE_T
 AC_TYPE_UINT16_T
 AC_TYPE_UINT32_T
 
 # Checks for library functions.
 AC_FUNC_FORK
-AC_FUNC_MALLOC
+#AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset stpcpy strstr])
 
 AC_CONFIG_FILES([Library/CoreString/CoreStringTest/Makefile
