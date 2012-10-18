@@ -25,8 +25,8 @@ AC_CANONICAL_HOST
 # Compiler Option
 AS_CASE([$host_os],
 	[linux*],[CC=gcc],
-	[*BSD*],[CC=clang],
-	[darwin],[CC=clang],
+	[*bsd*],[CC=clang],
+	[darwin*],[CC=clang],
 	[*],[]
 )
 CFLAGS="$CFLAGS -std=c11"

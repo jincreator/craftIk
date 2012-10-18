@@ -12640,9 +12640,9 @@ fi
 case $host_os in #(
   linux*) :
     CC=gcc ;; #(
-  *BSD*) :
+  *bsd*) :
     CC=clang ;; #(
-  darwin) :
+  darwin*) :
     CC=clang ;; #(
   *) :
 
