@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([craftIk], [20120904], [BUG-REPORT-ADDRESS])
+AC_INIT([craftIk], [20121019], [BUG-REPORT-ADDRESS])
 AM_INIT_AUTOMAKE([foreign])
 LT_INIT
 AC_CONFIG_SRCDIR([config.h.in])
@@ -13,13 +13,23 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_AWK
 AC_PROG_CC
 AC_PROG_CPP
+AC_PROG_CC_STDC
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
 
+# Checks for system.
+AC_CANONICAL_HOST
+
 # Compiler Option
-CPPFLAGS="$CPPFLAGS -std=c11"
+AS_CASE([$host_os],
+	[linux*],[CC=gcc],
+	[*BSD*],[CC=clang],
+	[darwin],[CC=clang],
+	[*],[]
+)
+CFLAGS="$CFLAGS -std=c11"
 
 # Checks for libraries.
 
