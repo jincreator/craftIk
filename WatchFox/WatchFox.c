@@ -8,8 +8,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/types.h>
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
 
 #define CRAFTIK_WATCHFOX_VERSION "1.0.0"
 
@@ -43,7 +49,7 @@ int main(int argc, const char **argv) {
 			free(WFExecArgs);
 			abort();
 		}
-		memset(WFExecArgs[0], '\0', sizeof(char)*(WFTemp+8))
+		memset(WFExecArgs[0], '\0', sizeof(char)*(WFTemp+8));
 		strncpy(stpcpy(WFExecArgs[0], argv[0]), "craftIk", 7);
 	}
 	WFExecArgs[1]="--fox-watching-u";
