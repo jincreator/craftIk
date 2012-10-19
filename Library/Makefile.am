@@ -1,1 +1,0 @@
-SUBDIRS=Seatest ObjectSystem CoreString
