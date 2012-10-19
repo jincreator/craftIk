@@ -34,28 +34,16 @@ CFLAGS="$CFLAGS -std=c11"
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([memory.h stddef.h stdint.h stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([stdlib.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_TYPE_INT16_T
-AC_TYPE_INT32_T
 AC_TYPE_PID_T
-#AC_TYPE_SIZE_T
-AC_TYPE_UINT16_T
-AC_TYPE_UINT32_T
 
 # Checks for library functions.
 AC_FUNC_FORK
 #AC_FUNC_MALLOC
-AC_CHECK_FUNCS([memset stpcpy strstr])
 
-AC_CONFIG_FILES([Library/CoreString/CoreStringTest/Makefile
-                 Library/CoreString/Makefile
-                 Library/Makefile
-                 Library/ObjectSystem/Makefile
-                 Library/ObjectSystem/ObjectSystemTest/Makefile
-                 Library/Seatest/Makefile
-                 Makefile
-                 ProcessManager/Makefile
-                 WatchFox/Makefile])
+AC_CONFIG_FILES([Makefile
+                 include/Makefile
+		 src/Makefile])
 AC_OUTPUT

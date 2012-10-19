@@ -1,2 +1,0 @@
-bin_PROGRAMS=watchfox
-watchfox_SOURCES=WatchFox.c

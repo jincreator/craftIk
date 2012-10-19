@@ -1,2 +1,0 @@
-bin_PROGRAMS=processmanager
-processmanager_SOURCES=ProcessManager.c
