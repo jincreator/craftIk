@@ -5,7 +5,10 @@ compiler:
 env:
   - DEBUG=0
   - DEBUG=1
-script: touch * && mkdir install && ./configure --prefix=$(pwd)/install && make install
+before_script:
+  - touch *
+  - mkdir install
+script: ./configure --prefix=$(pwd)/install && make install
 notifications:
   email:
     recipients:
