@@ -2,6 +2,9 @@ language: c
 compiler:
   - gcc
   - clang
+env:
+  - DEBUG=0
+  - DEBUG=1
 script: touch * && mkdir install && ./configure --prefix=$(pwd)/install && make install
 notifications:
   email:
