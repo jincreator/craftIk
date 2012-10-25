@@ -4,4 +4,6 @@ compiler:
   - clang
 script: touch * && ./configure && make
 notifications:
+  email:
+    - craftik@cyrusian.com
   irc: "irc.ozinger.org#craftIk"
