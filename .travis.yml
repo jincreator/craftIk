@@ -4,4 +4,4 @@ compiler:
   - clang
 script: touch * && ./configure && make
 notifications:
-  irc: "irc.ozinger.org#craftIk"
+  irc: "irc.ozinger.org#craftik"
