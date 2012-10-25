@@ -28,3 +28,4 @@ config.h
 #Build
 *.([oa]|la)
 /build/
+/install/
