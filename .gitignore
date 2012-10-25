@@ -29,3 +29,6 @@ config.h
 *.([oa]|la)
 /build/
 /install/
+
+#Test
+.travis.yml
