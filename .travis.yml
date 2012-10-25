@@ -2,7 +2,7 @@ language: c
 compiler:
   - gcc
   - clang
-script: touch * && ./configure && make install
+script: touch * && mkdir install && ./configure --prefix=$(pwd)/install && make install
 notifications:
   email:
     recipients:
