@@ -2,7 +2,7 @@ language: c
 compiler:
   - gcc
   - clang
-script: touch * && ./configure && make
+script: touch * && ./configure && make install
 notifications:
   email:
     - craftik@cyrusian.com
