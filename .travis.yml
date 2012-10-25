@@ -5,5 +5,8 @@ compiler:
 script: touch * && ./configure && make install
 notifications:
   email:
-    - craftik@cyrusian.com
+    recipients:
+      - craftik@cyrusian.com
+    on_success: always
+    on_failure: always
   irc: "irc.ozinger.org#craftIk"
