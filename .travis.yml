@@ -1,0 +1,18 @@
+language: c
+compiler:
+  - gcc
+  - clang
+env:
+  - DEBUG=0
+  - DEBUG=1
+before_script:
+  - touch *
+  - mkdir install
+script: ./configure --prefix=$(pwd)/install && make install
+notifications:
+  email:
+    recipients:
+      - craftik@cyrusian.com
+    on_success: always
+    on_failure: always
+  irc: "irc.ozinger.org#craftIk"
