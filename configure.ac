@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([craftIk], [20121025], [BUG-REPORT-ADDRESS])
+AC_INIT([craftIk], [20121026], [craftik@cyrusian.com])
 AS_VAR_SET_IF(CC,
               [AS_VAR_SET(SET_CC,[yes])],
               [AS_VAR_SET(SET_CC,[no])]
