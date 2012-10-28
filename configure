@@ -12171,7 +12171,7 @@ $as_echo "[craftIk]Compile using $CC $CPPFLAGS $CFLAGS on $host_os."
 # Checks for libraries.
 
 # Checks for header files.
-for ac_header in stdlib.h unistd.h
+for ac_header in stdlib.h sys/socket.h unistd.h
 do :
   as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
 ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default"

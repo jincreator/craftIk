@@ -76,7 +76,7 @@ AS_ECHO("@<:@craftIk@:>@Compile using $CC $CPPFLAGS $CFLAGS on $host_os.")
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h unistd.h])
+AC_CHECK_HEADERS([stdlib.h sys/socket.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_PID_T
