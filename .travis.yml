@@ -7,9 +7,9 @@ env:
     - PREFIX=$(pwd)/install
   matrix:
     - DEBUG=0
-    - DEBUG=0 MAINTAIN="--enable-maintainer-mode"
+    - DEBUG=0 MAINTAIN="--disable-maintainer-mode"
     - DEBUG=1
-    - DEBUG=1 MAINTAIN="--enable-maintainer-mode"
+    - DEBUG=1 MAINTAIN="--disable-maintainer-mode"
 before_script:
   - mkdir install
 script:

@@ -21,7 +21,7 @@ AS_VAR_IF(DEBUG,[1],
               [AS_VAR_SET(SET_DEBUG,[no])]
 )
 AM_INIT_AUTOMAKE([foreign])
-AM_MAINTAINER_MODE([disable])
+AM_MAINTAINER_MODE([enable])
 LT_INIT
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
