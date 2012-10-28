@@ -3,11 +3,16 @@ compiler:
   - gcc
   - clang
 env:
-  - DEBUG=0
-  - DEBUG=1
+  global:
+    - prefix=$(pwd)/install
+  matrix:
+    - DEBUG=0
+    - DEBUG=1
 before_script:
   - mkdir install
-script: ./configure --prefix=$(pwd)/install && make install
+script:
+  - ./configure && make install
+  - ./configure --enable-maintainer-mode && make install
 notifications:
   email:
     recipients:
