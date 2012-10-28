@@ -65,7 +65,7 @@ void run_worker(share* shared,int sv) {
 #ifndef DEBUG
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
-	close(STDERROR_FILENO);
+	close(STDERR_FILENO);
 #endif
 	while(1) {
 		printf("hello craftIk worker!\n");
