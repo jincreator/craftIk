@@ -6,7 +6,6 @@ env:
   - DEBUG=0
   - DEBUG=1
 before_script:
-  - touch *
   - mkdir install
 script: ./configure --prefix=$(pwd)/install && make install
 notifications:
