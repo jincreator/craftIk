@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([craftIk], [20121026], [craftik@cyrusian.com])
+AC_INIT([craftIk], [20121028], [craftik@cyrusian.com])
 AS_VAR_SET_IF(CC,
               [AS_VAR_SET(SET_CC,[yes])],
               [AS_VAR_SET(SET_CC,[no])]
@@ -30,8 +30,8 @@ AC_CONFIG_MACRO_DIR([m4])
 AC_PROG_AWK
 AS_VAR_IF(SET_CFLAGS,[no],
           [AS_VAR_IF(SET_DEBUG,[no],
-                     [AS_VAR_SET(CFLAGS,[-O2])],
-                     [AS_VAR_SET(CFLAGS,["-g -O0"])]
+                     [AS_VAR_SET(CFLAGS,["-Wall -O2"])],
+                     [AS_VAR_SET(CFLAGS,["-Wall -g -O0"])]
           )]
 )
 AC_PROG_CC([gcc clang cc])

@@ -78,6 +78,9 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
+libctinit_la_LIBADD =
+am_libctinit_la_OBJECTS = init.lo
+libctinit_la_OBJECTS = $(am_libctinit_la_OBJECTS)
 libctprocess_la_LIBADD =
 am_libctprocess_la_OBJECTS = process.lo
 libctprocess_la_OBJECTS = $(am_libctprocess_la_OBJECTS)
@@ -87,7 +90,7 @@ libctproperties_la_OBJECTS = $(am_libctproperties_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_craftik_OBJECTS = craftik.$(OBJEXT)
 craftik_OBJECTS = $(am_craftik_OBJECTS)
-craftik_DEPENDENCIES = libctproperties.la libctprocess.la
+craftik_DEPENDENCIES = libctinit.la libctproperties.la libctprocess.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -101,9 +104,9 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libctprocess_la_SOURCES) $(libctproperties_la_SOURCES) \
-	$(craftik_SOURCES)
-DIST_SOURCES = $(libctprocess_la_SOURCES) \
+SOURCES = $(libctinit_la_SOURCES) $(libctprocess_la_SOURCES) \
+	$(libctproperties_la_SOURCES) $(craftik_SOURCES)
+DIST_SOURCES = $(libctinit_la_SOURCES) $(libctprocess_la_SOURCES) \
 	$(libctproperties_la_SOURCES) $(craftik_SOURCES)
 ETAGS = etags
 CTAGS = ctags
@@ -222,11 +225,12 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
-lib_LTLIBRARIES = libctproperties.la libctprocess.la
+lib_LTLIBRARIES = libctinit.la libctproperties.la libctprocess.la
+libctinit_la_SOURCES = init.c
 libctproperties_la_SOURCES = properties.c
 libctprocess_la_SOURCES = process.c
 craftik_SOURCES = craftik.c
-craftik_LDADD = libctproperties.la libctprocess.la
+craftik_LDADD = libctinit.la libctproperties.la libctprocess.la
 all: all-am
 
 .SUFFIXES:
@@ -292,6 +296,8 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+libctinit.la: $(libctinit_la_OBJECTS) $(libctinit_la_DEPENDENCIES) $(EXTRA_libctinit_la_DEPENDENCIES) 
+	$(LINK) -rpath $(libdir) $(libctinit_la_OBJECTS) $(libctinit_la_LIBADD) $(LIBS)
 libctprocess.la: $(libctprocess_la_OBJECTS) $(libctprocess_la_DEPENDENCIES) $(EXTRA_libctprocess_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctprocess_la_OBJECTS) $(libctprocess_la_LIBADD) $(LIBS)
 libctproperties.la: $(libctproperties_la_OBJECTS) $(libctproperties_la_DEPENDENCIES) $(EXTRA_libctproperties_la_DEPENDENCIES) 
@@ -350,6 +356,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/craftik.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/properties.Plo@am__quote@
 
