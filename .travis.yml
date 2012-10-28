@@ -3,12 +3,17 @@ compiler:
   - gcc
   - clang
 env:
-  - DEBUG=0
-  - DEBUG=1
+  global:
+    - PREFIX=$(pwd)/install
+  matrix:
+    - DEBUG=0
+    - DEBUG=0 MAINTAIN="--disable-maintainer-mode"
+    - DEBUG=1
+    - DEBUG=1 MAINTAIN="--disable-maintainer-mode"
 before_script:
-  - touch *
   - mkdir install
-script: ./configure --prefix=$(pwd)/install && make install
+script:
+  - ./configure --prefix=$PREFIX $MAINTAIN && make install
 notifications:
   email:
     recipients:

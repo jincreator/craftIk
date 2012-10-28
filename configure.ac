@@ -21,6 +21,7 @@ AS_VAR_IF(DEBUG,[1],
               [AS_VAR_SET(SET_DEBUG,[no])]
 )
 AM_INIT_AUTOMAKE([foreign])
+AM_MAINTAINER_MODE([enable])
 LT_INIT
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
@@ -76,7 +77,7 @@ AS_ECHO("@<:@craftIk@:>@Compile using $CC $CPPFLAGS $CFLAGS on $host_os.")
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h unistd.h])
+AC_CHECK_HEADERS([stdlib.h sys/socket.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_PID_T
