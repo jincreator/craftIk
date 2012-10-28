@@ -1,8 +1,7 @@
 #include "process.h"
 
 int start_master(share* shared) {
-	pid_t pid,sid;
-	pid=fork();
+	pid_t pid=fork();
 	if(pid<0) {
 		perror("master fork()");
 		return -1;
@@ -14,6 +13,15 @@ int start_master(share* shared) {
 	return 0;
 }
 void run_master(share* shared) {
+	pid_t sid=setsid();
+	if(sid==-1) {
+		perror("worker setsid()");
+	}
+#ifndef DEBUG
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERR_FILENO);
+#endif
 	int num_workers=shared->prop->num_workers;
 	pid_t *pid_worker=(pid_t *)malloc(sizeof(pid_t)*num_workers);
 	if(pid_worker==NULL) {
@@ -38,8 +46,7 @@ void run_master(share* shared) {
 	}
 }
 int start_worker(share* shared,int sv){
-	pid_t pid,sid;
-	pid=fork();
+	pid_t pid=fork();
 	if(pid<0) {
 		perror("worker fork()");
 		return -1;
@@ -51,6 +58,15 @@ int start_worker(share* shared,int sv){
 	return 0;
 }
 void run_worker(share* shared,int sv) {
+	pid_t sid=setsid();
+	if(sid==-1) {
+		perror("worker setsid()");
+	}
+#ifndef DEBUG
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
+	close(STDERROR_FILENO);
+#endif
 	while(1) {
 		printf("hello craftIk worker!\n");
 	}
