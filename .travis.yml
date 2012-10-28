@@ -4,15 +4,16 @@ compiler:
   - clang
 env:
   global:
-    - prefix=$(pwd)/install
+    - PREFIX=$(pwd)/install
   matrix:
     - DEBUG=0
+    - DEBUG=0 MAINTAIN="--enable-maintainer-mode"
     - DEBUG=1
+    - DEBUG=1 MAINTAIN="--enable-maintainer-mode"
 before_script:
   - mkdir install
 script:
-  - ./configure && make install
-  - ./configure --enable-maintainer-mode && make install
+  - ./configure --prefix=$PREFIX $MAINTAIN && make install
 notifications:
   email:
     recipients:
