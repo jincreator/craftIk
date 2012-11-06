@@ -1,6 +1,8 @@
 #include "process.h"
+#include <fcntl.h>
 
 int start_master(share* shared) {
+
 	pid_t pid=fork();
 	if(pid<0) {
 		perror("master fork()");
@@ -22,6 +24,9 @@ void run_master(share* shared) {
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 #endif
+
+	make_serv_sock(shared);	
+
 	int num_workers=shared->prop->num_workers;
 	pid_t *pid_worker=(pid_t *)malloc(sizeof(pid_t)*num_workers);
 	if(pid_worker==NULL) {
@@ -58,6 +63,11 @@ int start_worker(share* shared,int sv){
 	return 0;
 }
 void run_worker(share* shared,int sv) {
+
+	craftIk_epoll clnt_epoll;
+
+	craftIk_epoll_init(&clnt_epoll, shared->listen_sock, shared->prop->num_connections_per_worker);
+
 	pid_t sid=setsid();
 	if(sid==-1) {
 		perror("worker setsid()");
@@ -67,7 +77,18 @@ void run_worker(share* shared,int sv) {
 	close(STDOUT_FILENO);
 	close(STDERR_FILENO);
 #endif
-	while(1) {
+
+	int res;
+	while(1){
+		res= craftIk_epoll_getEvents(&clnt_epoll);
+		for(int i=0; i<res; i++){
+			if(clnt_epoll.events[i].data.fd== clnt_epoll.listenfd){
+				add_clnt(shared, &clnt_epoll);
+			}
+			else{
+				clnt_event_procs(shared ,&clnt_epoll, i);
+			}
+		}
 		printf("hello craftIk worker!\n");
 	}
 }

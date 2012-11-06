@@ -9,6 +9,9 @@
 
 #include "craftik.h"
 #include "share.h"
+#include "event.h"
+#include "master_procs.h"
+#include "worker_procs.h"
 
 int start_master(share*);
 int start_worker(share*,int);
