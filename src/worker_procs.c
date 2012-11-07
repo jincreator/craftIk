@@ -11,16 +11,16 @@ void add_clnt(share* shared, craftIk_epoll* clnt_epoll){
 }
 
 void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
+	unsigned char proto_type;
 
-	char proto_type;
-
-	int res= recv(clnt_epoll->events[clnt_num].data.fd, &proto_type, sizeof(proto_type), 0);
+	int res= recv(clnt_epoll->events[clnt_num].data.fd, &proto_type, (size_t)sizeof(proto_type), 0);
+	
 	if(res== 0){
 		craftIk_epoll_del(clnt_epoll, clnt_epoll->events[clnt_num].data.fd);
 	} else if(res< 0){
 		craftIk_epoll_del(clnt_epoll, clnt_epoll->events[clnt_num].data.fd);
 	} else{
-		if(proto_type== 0xFE){
+		if((int)proto_type == 0xFE){
 			proc_0xFE(shared, clnt_epoll, clnt_num);
 		}
 	}

@@ -36,7 +36,7 @@ void craftIk_epoll_add( struct craftIk_epoll* epoll, int clifd )
 
 void craftIk_epoll_del( struct craftIk_epoll* epoll, int clifd )
 {
-	if( epoll_ctl( epoll->epfd, EPOLL_CTL_ADD, clifd, NULL) < 0 ){
+	if( epoll_ctl( epoll->epfd, EPOLL_CTL_DEL, clifd, NULL) < 0 ){
 		perror("epoll_ctl DEL");
 		exit(1);
 	}	
