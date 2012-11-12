@@ -1373,8 +1373,7 @@ Optional Features:
   --enable-debugging      Enable debugging. It will turn off optimization, add
                           debugging symbols, and define DEBUG. You can treat
                           as -g -O0 -DDEBUG. It will disabled by default.
-
-                --disable-debugging     Disable debugging. This is default.
+  --disable-debugging     Disable debugging. This is default.
 
   --disable-maintainer-mode  disable make rules and dependencies not useful
 			  (and sometimes confusing) to the casual installer

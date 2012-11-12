@@ -25,8 +25,7 @@ AC_ARG_ENABLE(debugging,
                                You can treat as -g -O0 -DDEBUG. \
                                It will disabled by default.]
                               )
-              ]
-              [AC_HELP_STRING([--disable-debugging],
+AC_HELP_STRING([--disable-debugging],
                               [Disable debugging. This is default.]
                              )
               ],
