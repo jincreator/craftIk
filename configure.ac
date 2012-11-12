@@ -15,11 +15,28 @@ AS_VAR_SET_IF(CPPFLAGS,
               [AS_VAR_SET(SET_CPPFLAGS,[yes])],
               [AS_VAR_SET(SET_CPPFLAGS,[no])]
 )
-AS_VAR_IF(DEBUG,[1],
-              [AS_VAR_SET(SET_DEBUG,[yes])
-               AS_ECHO("@<:@craftIk@:>@Debugging enabled...")],
-              [AS_VAR_SET(SET_DEBUG,[no])]
+AS_VAR_IF(DEBUG,[1],[AS_VAR_SET(SET_DEBUG,[yes])],[AS_VAR_SET(SET_DEBUG,[no])])
+AC_ARG_ENABLE(debugging,
+              [AC_HELP_STRING([--enable-debugging],
+                              [Enable debugging. \
+                               It will turn off optimization, \
+                               add debugging symbols, \
+                               and define DEBUG. \
+                               You can treat as -g -O0 -DDEBUG. \
+                               It will disabled by default.]
+                              )
+              ]
+              [AC_HELP_STRING([--disable-debugging],
+                              [Disable debugging. This is default.]
+                             )
+              ],
+              [AS_VAR_IF(enable_debugging,[yes],
+                         [AS_VAR_SET(SET_DEBUG,[yes])],
+                         [AS_VAR_SET(SET_DEBUG,[no])]
+                        )
+              ]
 )
+AS_VAR_IF(SET_DEBUG,[yes],[AS_ECHO("@<:@craftIk@:>@Debugging enabled...")])
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE([enable])
 LT_INIT

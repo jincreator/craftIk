@@ -730,6 +730,7 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
+enable_debugging
 enable_maintainer_mode
 enable_shared
 enable_static
@@ -1369,6 +1370,12 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --enable-debugging      Enable debugging. It will turn off optimization, add
+                          debugging symbols, and define DEBUG. You can treat
+                          as -g -O0 -DDEBUG. It will disabled by default.
+
+                --disable-debugging     Disable debugging. This is default.
+
   --disable-maintainer-mode  disable make rules and dependencies not useful
 			  (and sometimes confusing) to the casual installer
   --enable-shared[=PKGS]  build shared libraries [default=yes]
@@ -2255,10 +2262,23 @@ else
 fi
 if test "x$DEBUG" = x1; then :
   SET_DEBUG=yes
-               $as_echo "[craftIk]Debugging enabled..."
+else
+  SET_DEBUG=no
+fi
+# Check whether --enable-debugging was given.
+if test "${enable_debugging+set}" = set; then :
+  enableval=$enable_debugging; if test "x$enable_debugging" = xyes; then :
+  SET_DEBUG=yes
 else
   SET_DEBUG=no
 
+fi
+
+
+fi
+
+if test "x$SET_DEBUG" = xyes; then :
+  $as_echo "[craftIk]Debugging enabled..."
 fi
 am__api_version='1.11'
 
