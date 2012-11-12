@@ -573,7 +573,7 @@ PACKAGE_TARNAME='craftik'
 PACKAGE_VERSION='20121028'
 PACKAGE_STRING='craftIk 20121028'
 PACKAGE_BUGREPORT='craftik@cyrusian.com'
-PACKAGE_URL=''
+PACKAGE_URL='http://craftIk.cyrusian.com'
 
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -1408,6 +1408,7 @@ Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
 
 Report bugs to <craftik@cyrusian.com>.
+craftIk home page: <http://craftIk.cyrusian.com>.
 _ACEOF
 ac_status=$?
 fi
@@ -13066,7 +13067,8 @@ $config_headers
 Configuration commands:
 $config_commands
 
-Report bugs to <craftik@cyrusian.com>."
+Report bugs to <craftik@cyrusian.com>.
+craftIk home page: <http://craftIk.cyrusian.com>."
 
 _ACEOF
 cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
