@@ -52,7 +52,15 @@ AS_VAR_IF(SET_CFLAGS,[no],
                      [AS_VAR_SET(CFLAGS,["-Wall -g -O0"])]
           )]
 )
-AC_PROG_CC([gcc clang cc])
+AC_CANONICAL_HOST
+AS_ECHO("@<:@craftIk@:>@System $host detected...")
+AS_CASE([$host_os],
+        [linux*],[AC_PROG_CC([gcc clang cc])],
+        [*bsd*],[AC_PROG_CC([clang gcc cc])],
+        [darwin*],[AC_PROG_CC([clang gcc cc])],
+        [*],[AC_PROG_CC]
+)
+AS_ECHO("@<:@craftIk@:>@Use $CC as C compiler...")
 AS_VAR_IF(SET_CPPFLAGS,[no],
           [AS_VAR_IF(SET_DEBUG,[yes],
                      [AS_VAR_SET(CPPFLAGS,[-DDEBUG])]
@@ -64,20 +72,7 @@ AC_PROG_LN_S
 AC_PROG_MAKE_SET
 AC_PROG_MKDIR_P
 
-# Checks for system.
-AC_CANONICAL_HOST
-AS_ECHO("@<:@craftIk@:>@System $host detected...")
-
 # Compiler Options.
-AS_VAR_IF(SET_CC,[yes],
-          [AS_ECHO("@<:@craftIk@:>@Use $CC as C compiler...")],
-          [AS_CASE([$host_os],
-                   [linux*],[AS_VAR_SET(CC,[gcc])],
-                   [*bsd*],[AS_VAR_SET(CC,[clang])],
-                   [darwin*],[AS_VAR_SET(CC,[clang])],
-                   [*],[AS_VAR_SET(CC,[cc])]
-          )]
-)
 AS_VAR_IF(SET_CFLAGS,[yes],
           [AS_ECHO("@<:@craftIk@:>@Use $CFLAGS as compile option...")],
           [AX_CHECK_COMPILE_FLAG(-std=c11,
