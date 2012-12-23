@@ -31,6 +31,8 @@ typedef struct {
 	int view_distance;
 	char motd[1024];
 	int num_workers;
+	int num_connections_per_worker;
+	int port;
 } properties;
 typedef struct {
 	int TODO;
@@ -38,6 +40,7 @@ typedef struct {
 typedef struct {
 	properties* prop;
 	connections* conn;
+	int listen_sock;
 } share;
 
 #endif
