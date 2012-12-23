@@ -24,5 +24,8 @@ void read_bannedips(share* shared);
 void read_bannedplayers(share* shared);
 
 void read_setting(share* shared);
+void read_valuebool(bool* prop,const char* value);
+void read_valuechar(char* prop,const char* value);
+void read_valueint(int* prop,const char* value);
 
 #endif
