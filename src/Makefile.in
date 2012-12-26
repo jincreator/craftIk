@@ -85,7 +85,7 @@ libcteventprocs_la_LIBADD =
 am_libcteventprocs_la_OBJECTS = event_procs.lo
 libcteventprocs_la_OBJECTS = $(am_libcteventprocs_la_OBJECTS)
 libctinit_la_LIBADD =
-am_libctinit_la_OBJECTS = init.lo
+am_libctinit_la_OBJECTS = init.lo setting.lo
 libctinit_la_OBJECTS = $(am_libctinit_la_OBJECTS)
 libctmasterprocs_la_LIBADD =
 am_libctmasterprocs_la_OBJECTS = master_procs.lo event_procs.lo
@@ -93,16 +93,13 @@ libctmasterprocs_la_OBJECTS = $(am_libctmasterprocs_la_OBJECTS)
 libctprocess_la_LIBADD =
 am_libctprocess_la_OBJECTS = process.lo
 libctprocess_la_OBJECTS = $(am_libctprocess_la_OBJECTS)
-libctproperties_la_LIBADD =
-am_libctproperties_la_OBJECTS = properties.lo
-libctproperties_la_OBJECTS = $(am_libctproperties_la_OBJECTS)
 libctworkerprocs_la_LIBADD =
 am_libctworkerprocs_la_OBJECTS = worker_procs.lo event_procs.lo
 libctworkerprocs_la_OBJECTS = $(am_libctworkerprocs_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_craftik_OBJECTS = craftik.$(OBJEXT)
 craftik_OBJECTS = $(am_craftik_OBJECTS)
-craftik_DEPENDENCIES = libctinit.la libctproperties.la libctprocess.la \
+craftik_DEPENDENCIES = libctinit.la libctprocess.la \
 	libctevent.la libcteventprocs.la libctmasterprocs.la \
 	libctworkerprocs.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
@@ -120,11 +117,11 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	$(LDFLAGS) -o $@
 SOURCES = $(libctevent_la_SOURCES) $(libcteventprocs_la_SOURCES) \
 	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
-	$(libctprocess_la_SOURCES) $(libctproperties_la_SOURCES) \
+	$(libctprocess_la_SOURCES) \
 	$(libctworkerprocs_la_SOURCES) $(craftik_SOURCES)
 DIST_SOURCES = $(libctevent_la_SOURCES) $(libcteventprocs_la_SOURCES) \
 	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
-	$(libctprocess_la_SOURCES) $(libctproperties_la_SOURCES) \
+	$(libctprocess_la_SOURCES) \
 	$(libctworkerprocs_la_SOURCES) $(craftik_SOURCES)
 ETAGS = etags
 CTAGS = ctags
@@ -244,7 +241,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
-lib_LTLIBRARIES = libctinit.la libctproperties.la libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la
+lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la
 libctinit_la_SOURCES = init.c
 libctsetting_la_SOURCES = setting.c
 libctprocess_la_SOURCES = process.c
@@ -253,7 +250,7 @@ libcteventprocs_la_SOURCES = event_procs.c
 libctmasterprocs_la_SOURCES = master_procs.c event_procs.c
 libctworkerprocs_la_SOURCES = worker_procs.c event_procs.c
 craftik_SOURCES = craftik.c
-craftik_LDADD = libctinit.la libctproperties.la libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la
+craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la
 all: all-am
 
 .SUFFIXES:
@@ -329,8 +326,6 @@ libctmasterprocs.la: $(libctmasterprocs_la_OBJECTS) $(libctmasterprocs_la_DEPEND
 	$(LINK) -rpath $(libdir) $(libctmasterprocs_la_OBJECTS) $(libctmasterprocs_la_LIBADD) $(LIBS)
 libctprocess.la: $(libctprocess_la_OBJECTS) $(libctprocess_la_DEPENDENCIES) $(EXTRA_libctprocess_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctprocess_la_OBJECTS) $(libctprocess_la_LIBADD) $(LIBS)
-libctproperties.la: $(libctproperties_la_OBJECTS) $(libctproperties_la_DEPENDENCIES) $(EXTRA_libctproperties_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libctproperties_la_OBJECTS) $(libctproperties_la_LIBADD) $(LIBS)
 libctworkerprocs.la: $(libctworkerprocs_la_OBJECTS) $(libctworkerprocs_la_DEPENDENCIES) $(EXTRA_libctworkerprocs_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctworkerprocs_la_OBJECTS) $(libctworkerprocs_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
@@ -393,7 +388,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/master_procs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/properties.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/worker_procs.Plo@am__quote@
 
 .c.o:
