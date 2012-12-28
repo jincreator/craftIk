@@ -93,11 +93,15 @@ libctmasterprocs_la_OBJECTS = $(am_libctmasterprocs_la_OBJECTS)
 libctprocess_la_LIBADD =
 am_libctprocess_la_OBJECTS = process.lo
 libctprocess_la_OBJECTS = $(am_libctprocess_la_OBJECTS)
+libctworkerprocs_la_LIBADD =
+am_libctworkerprocs_la_OBJECTS = worker_procs.lo event_procs.lo
+libctworkerprocs_la_OBJECTS = $(am_libctworkerprocs_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_craftik_OBJECTS = craftik.$(OBJEXT)
 craftik_OBJECTS = $(am_craftik_OBJECTS)
 craftik_DEPENDENCIES = libctinit.la libctprocess.la \
 	libctevent.la libcteventprocs.la libctmasterprocs.la \
+	libctworkerprocs.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -114,11 +118,11 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 SOURCES = $(libctevent_la_SOURCES) $(libcteventprocs_la_SOURCES) \
 	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
 	$(libctprocess_la_SOURCES) \
-	$(craftik_SOURCES)
+	$(libctworkerprocs_la_SOURCES) $(craftik_SOURCES)
 DIST_SOURCES = $(libctevent_la_SOURCES) $(libcteventprocs_la_SOURCES) \
 	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
 	$(libctprocess_la_SOURCES) \
-	$(craftik_SOURCES)
+	$(libctworkerprocs_la_SOURCES) $(craftik_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -237,15 +241,16 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
-lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la 
+lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la
 libctinit_la_SOURCES = init.c
 libctsetting_la_SOURCES = setting.c
 libctprocess_la_SOURCES = process.c
 libctevent_la_SOURCES = event.c epoll.c
 libcteventprocs_la_SOURCES = event_procs.c
 libctmasterprocs_la_SOURCES = master_procs.c event_procs.c
+libctworkerprocs_la_SOURCES = worker_procs.c event_procs.c
 craftik_SOURCES = craftik.c
-craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la
+craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la
 all: all-am
 
 .SUFFIXES:
@@ -321,6 +326,8 @@ libctmasterprocs.la: $(libctmasterprocs_la_OBJECTS) $(libctmasterprocs_la_DEPEND
 	$(LINK) -rpath $(libdir) $(libctmasterprocs_la_OBJECTS) $(libctmasterprocs_la_LIBADD) $(LIBS)
 libctprocess.la: $(libctprocess_la_OBJECTS) $(libctprocess_la_DEPENDENCIES) $(EXTRA_libctprocess_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctprocess_la_OBJECTS) $(libctprocess_la_LIBADD) $(LIBS)
+libctworkerprocs.la: $(libctworkerprocs_la_OBJECTS) $(libctworkerprocs_la_DEPENDENCIES) $(EXTRA_libctworkerprocs_la_DEPENDENCIES) 
+	$(LINK) -rpath $(libdir) $(libctworkerprocs_la_OBJECTS) $(libctworkerprocs_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -381,6 +388,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/master_procs.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/process.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/worker_procs.Plo@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
