@@ -20,8 +20,6 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	} else if(res< 0){
 		craftIk_epoll_del(clnt_epoll, clnt_epoll->events[clnt_num].data.fd);
 	} else{
-		if((int)proto_type == 0xFE){
-			proc_0xFE(shared, clnt_epoll, clnt_num);
-		}
+		// packet processing
 	}
 }

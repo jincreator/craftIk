@@ -1,12 +1,12 @@
 AM_CPPFLAGS=-I$(top_srcdir)/include
-lib_LTLIBRARIES=libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la libctsetting.la
+lib_LTLIBRARIES=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la
 libctinit_la_SOURCES=init.c
 libctsetting_la_SOURCES=setting.c
 libctprocess_la_SOURCES=process.c
 libctevent_la_SOURCES=event.c epoll.c
-libcteventprocs_la_SOURCES=event_procs.c
-libctmasterprocs_la_SOURCES=master_procs.c event_procs.c
-libctworkerprocs_la_SOURCES=worker_procs.c event_procs.c
+libctpacket_la_SOURCES=packet.c
+libctmasterprocs_la_SOURCES=master_procs.c
+libctworkerprocs_la_SOURCES=worker_procs.c packet.c
 bin_PROGRAMS=craftik
 craftik_SOURCES=craftik.c
-craftik_LDADD=libctinit.la  libctprocess.la libctevent.la libcteventprocs.la libctmasterprocs.la libctworkerprocs.la libctsetting.la
+craftik_LDADD=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la
