@@ -59,7 +59,7 @@ void generate_server() {
 		"spawn-animals=true\n"
 		"snooper-enabled=true\n"
 		"hardcore=false\n"
-		"texture-pack="
+		"texture-pack=\n"
 		"online-mode=true\n"
 		"pvp=true\n"
 		"difficulty=1\n"
@@ -165,7 +165,7 @@ void read_server(share* shared) {
 		}
 		value_start=prop_end;
 		prop_end--;
-		while((line[value_start]!=' '||line[value_start]!='\t')
+		while( (line[value_start]==' '||line[value_start]=='\t')
 			&&line[prop_end]!='=') {
 			value_start++;
 		}
@@ -202,6 +202,8 @@ void read_server(share* shared) {
 		if(strcmp("num_workers",prop)==0) {
 			read_valueint(&shared->prop->num_workers,value);
 		}
+		
+		memset(line, 0x00, LINELEN_MAX);
 		//TODO:Add more properties.
 	}
 }

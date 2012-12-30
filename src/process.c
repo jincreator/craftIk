@@ -48,6 +48,7 @@ void run_master(share* shared) {
 	}
 	while(1) {
 		printf("Hello craftIk master!\n");
+		sleep(1);
 	}
 }
 int start_worker(share* shared,int sv){
