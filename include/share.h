@@ -34,6 +34,18 @@ typedef struct {
 	int num_connections_per_worker;
 	int port;
 } properties;
+
+typedef struct players{
+	int EID;
+	char* player_name;
+	double abs_x_pos;
+	double abs_y_pos;
+	double abs_z_pos;
+	double stance;
+	bool on_ground;
+	//TODO:add necessary variable
+} players;
+
 typedef struct {
 	int TODO;
 } connections;
@@ -41,6 +53,7 @@ typedef struct {
 	properties* prop;
 	connections* conn;
 	int listen_sock;
+	players* player;
 } share;
 
 #endif

@@ -20,6 +20,17 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	} else if(res< 0){
 		craftIk_epoll_del(clnt_epoll, clnt_epoll->events[clnt_num].data.fd);
 	} else{
-		// packet processing
+		if((int)proto_type == 0xFE){
+			proc_0xFE(shared, clnt_epoll, clnt_num);
+		}
+		if((int)proto_type == 0x0B){
+			proc_0x0B(shared, clnt_epoll, clnt_num);
+		}
 	}
+}
+
+players* getThisPlayer(){//TODO: it's dummy code
+	players* P= NULL;
+
+	return P;
 }

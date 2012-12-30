@@ -3,7 +3,4 @@
 #include "share.h"
 #include "event.h"
 
-void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num);
-
-
 #endif
