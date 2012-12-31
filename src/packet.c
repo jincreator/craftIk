@@ -12,6 +12,16 @@ void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 }
 
+void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
+	char message[1];
+	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
+	players* thisPlayer= getThisPlayer();
+	memcpy(&(thisPlayer->on_ground), message, sizeof(thisPlayer->on_ground));
+	if(alive_tick_cool()== true){//TODO: alive_tick_cool
+		proc_0x00(shared, clnt_epoll, clnt_num);
+	}
+}
+
 void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 	char message[33];
@@ -23,4 +33,7 @@ void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	memcpy(&(thisPlayer->abs_z_pos), message+ 24, sizeof(thisPlayer->abs_z_pos));
 	memcpy(&(thisPlayer->on_ground), message+ 32, sizeof(thisPlayer->on_ground));
 
+}
+
+void proc_0x00(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){//TODO
 }

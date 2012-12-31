@@ -26,11 +26,8 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 		if((int)proto_type == 0x0B){
 			proc_0x0B(shared, clnt_epoll, clnt_num);
 		}
+		if((int)proto_type == 0x0A){
+			proc_0x0A(shared, clnt_epoll, clnt_num);
+		}
 	}
-}
-
-players* getThisPlayer(){//TODO: it's dummy code
-	players* P= NULL;
-
-	return P;
 }
