@@ -12,6 +12,7 @@
 #include "event.h"
 #include "master_procs.h"
 #include "worker_procs.h"
+#include "session.h"
 
 int start_master(share*);
 int start_worker(share*,int);

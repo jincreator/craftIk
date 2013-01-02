@@ -2,6 +2,7 @@
 #define _WORKER_PROCS_H_
 #include "event.h"
 #include "event_procs.h"
+#include "session.h"
 
 void add_clnt(share* shared, craftIk_epoll* clnt_epoll);
 

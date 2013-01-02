@@ -47,7 +47,7 @@ void run_master(share* shared) {
 		close(sv[1]);
 	}
 	while(1) {
-		printf("Hello craftIk master!\n");
+		//printf("hello craftik master\n");
 		sleep(1);
 	}
 }
@@ -67,7 +67,9 @@ void run_worker(share* shared,int sv) {
 
 	craftIk_epoll clnt_epoll;
 
+	// init worker here
 	craftIk_epoll_init(&clnt_epoll, shared->listen_sock, shared->prop->num_connections_per_worker);
+	craftIk_session_init();
 
 	pid_t sid=setsid();
 	if(sid==-1) {
@@ -90,6 +92,6 @@ void run_worker(share* shared,int sv) {
 				clnt_event_procs(shared ,&clnt_epoll, i);
 			}
 		}
-		printf("hello craftIk worker!\n");
+		//printf("hello craftIk worker!\n");
 	}
 }
