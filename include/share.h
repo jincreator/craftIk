@@ -33,6 +33,8 @@ typedef struct {
 	int num_workers;
 	int num_connections_per_worker;
 	int port;
+	int protocol_version;//TODO: jincreator
+	char server_version[64];//TODO: jincreator
 } properties;
 
 typedef struct players{
@@ -54,6 +56,7 @@ typedef struct {
 	connections* conn;
 	int listen_sock;
 	players* player;
+	int player_count;
 } share;
 
 #endif
