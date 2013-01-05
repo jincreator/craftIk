@@ -105,7 +105,7 @@ void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	players* thisPlayer= getThisPlayer();
 	memcpy(&(thisPlayer->on_ground), message, sizeof(thisPlayer->on_ground));
 	if(alive_tick_cool()== true){//TODO: alive_tick_cool
-		proc_0x00(shared, clnt_epoll, clnt_num);
+		send_keep_alive(shared, clnt_epoll, clnt_num);//TODO: send_keep_alive
 	}
 }
 
@@ -123,4 +123,7 @@ void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 }
 
 void proc_0x00(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){//TODO
+	char message[1];
+	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);	
+	
 }

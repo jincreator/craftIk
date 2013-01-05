@@ -12,5 +12,8 @@ int main(int argc, const char **argv) {
 	}
 	start_master(shared);
 	printf("hello craftik\n");
+#ifdef DEBUG
+	printf("Debugging\n");
+#endif
 	return 0;
 }

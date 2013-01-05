@@ -23,5 +23,4 @@ void craftIk_session_del( int sockfd );
 
 craftIk_session* craftIk_session_get( int sockfd );
 
-
 #endif
