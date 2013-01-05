@@ -36,6 +36,8 @@ void run_master(share* shared) {
 	if(sv_worker==NULL) {
 		perror("sv_worker malloc()");
 	}
+
+printf("[DEBUG] number of workers to create : %d\n", num_workers);
 	for(int i=0;i<num_workers;i++) {
 		int sv[2];
 		if(socketpair(AF_UNIX,SOCK_STREAM,0,sv)!=0) {
@@ -46,6 +48,7 @@ void run_master(share* shared) {
 		close(sv[0]);
 		close(sv[1]);
 	}
+
 	while(1) {
 		//printf("hello craftik master\n");
 		sleep(1);

@@ -68,7 +68,9 @@ void generate_server() {
 		"spawn-monsters=true\n"
 		"generate-structures=true\n"
 		"view-distance=10\n"
-		"motd=A Minecraft Server");
+		"motd=A Minecraft Server for craftIk\n"
+		"num-workers=3\n"
+		"num-connections-per-worker=300\n");
 	fclose(server);
 }
 
@@ -194,17 +196,30 @@ void read_server(share* shared) {
 		//TODO:Show error message when no value.
 		char prop[PROPLEN_MAX],value[VALUELEN_MAX];
 		strncpy(prop,line+prop_start,
-			(prop_end-prop_start)*sizeof(char));
+			(prop_end-prop_start+1)*sizeof(char));
 		prop[prop_end-prop_start+1]='\0';
 		strncpy(value,line+value_start,
-			(value_end-value_start)*sizeof(char));
+			(value_end-value_start+1)*sizeof(char));
 		value[value_end-value_start+1]='\0';
-		if(strcmp("num_workers",prop)==0) {
-			read_valueint(&shared->prop->num_workers,value);
+
+		if(strcmp("num-workers",prop)==0) {
+			read_valueint(&shared->prop->num_workers, value);
+			printf("[DEBUG] workers : [%d]\n", shared->prop->num_workers);
+
+		}else if(strcmp("num-connections-per-worker", prop)==0){
+			read_valueint(&shared->prop->num_connections_per_worker, value);
+			printf("[DEBUG] connections per workers : [%d]\n", shared->prop->num_connections_per_worker);
+
+		}else if(strcmp("server-port",prop)==0){
+			read_valueint(&shared->prop->port, value);
+			printf("[DEBUG] listen port : [%d]\n", shared->prop->port);
+
+		}else{
+			//TODO:Add more properties.
+			//printf("prop=[%s],value=[%s]\n", prop,value);
 		}
-		
+
 		memset(line, 0x00, LINELEN_MAX);
-		//TODO:Add more properties.
 	}
 }
 

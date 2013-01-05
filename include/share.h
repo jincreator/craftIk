@@ -51,12 +51,14 @@ typedef struct players{
 typedef struct {
 	int TODO;
 } connections;
+
 typedef struct {
 	properties* prop;
 	connections* conn;
 	int listen_sock;
 	players* player;
 	int player_count;
+	RSA* private_key;
 } share;
 
 #endif
