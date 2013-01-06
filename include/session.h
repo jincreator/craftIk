@@ -8,7 +8,7 @@ typedef struct craftIk_session
 	int sockfd;
 	int EID;
 	int AESon;
-	char* username;
+	char username[128];
 
 	char* shared_secret;
 

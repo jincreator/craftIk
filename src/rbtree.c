@@ -233,7 +233,7 @@ RBTNode* RBT_RemoveNode( RBTNode** root, int key )
 		removed = target;
 	} else {
 		removed = RBT_SearchMinNode( target->right );
-		target->data = removed->data;
+		target->key = removed->key;
 	}
 
 	if( removed->left != nil ){
@@ -344,4 +344,44 @@ void RBT_RebuildAfterRemove( RBTNode** root, RBTNode* successor )
     }
 
     successor->color = BLACK;
+}
+
+
+
+void RBT_PrintTree( RBTNode* Node, int Depth, int BlackCount )
+{
+    int   i = 0;
+    char c = 'X';
+    int  v = -1;
+    char cnt[100];
+
+    if ( Node == NULL || Node == nil)
+        return;
+
+    if ( Node->color == BLACK )
+        BlackCount++;
+
+    if ( Node->parent != NULL ) 
+    {
+        v = Node->parent->key;
+
+        if ( Node->parent->left == Node )
+            c = 'L';            
+        else
+            c = 'R';
+    }
+
+    if ( Node->left == nil && Node->right == nil )
+        sprintf(cnt, "--------- %d", BlackCount );
+    else
+        sprintf(cnt, "");
+
+    for ( i=0; i<Depth; i++)
+        printf("  ");
+
+    printf( "%d %s [%c,%d] %s\n", Node->key, 
+            (Node->color == RED)?"RED":"BLACK", c, v, cnt);
+    
+    RBT_PrintTree( Node->left, Depth+1, BlackCount);
+    RBT_PrintTree( Node->right, Depth+1, BlackCount );
 }

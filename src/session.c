@@ -24,6 +24,7 @@ void craftIk_session_add( int sockfd )
 
 #ifdef DEBUG
 	fprintf(stderr,"[DEBUG] craftIk session added : fd(%d)\n", sockfd);
+	RBT_PrintTree( sessions, 0, 0 );
 #endif
 
 }
@@ -35,8 +36,10 @@ void craftIk_session_del( int sockfd )
 	if( toremove == NULL ){
 #ifdef DEBUG
 		fprintf(stderr,"[DEBUG] no node found to delete : fd(%d)\n", sockfd);
+		RBT_PrintTree( sessions, 0, 0);
 #endif
 	} else {
+		free( toremove->data );
 		RBT_DestroyNode( toremove );
 #ifdef DEBUG
 		fprintf(stderr,"[DEBUG] craftIk session deleted : fd(%d)\n", sockfd);
@@ -47,6 +50,7 @@ void craftIk_session_del( int sockfd )
 
 craftIk_session* craftIk_session_get( int sockfd )
 {
+
 	RBTNode* nodeget = RBT_SearchNode( sessions, sockfd );
 
 	if( nodeget == NULL ){
@@ -55,7 +59,7 @@ craftIk_session* craftIk_session_get( int sockfd )
 #endif
 		return NULL;
 	} else {
-		return nodeget;
+		return (craftIk_session*)nodeget->data;
 	}
 
 }

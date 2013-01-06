@@ -38,5 +38,6 @@ void		RBT_RebuildAfterRemove( RBTNode** root, RBTNode* x );
 void		RBT_RotateLeft( RBTNode** root, RBTNode* parent );
 void		RBT_RotateRight( RBTNode** root, RBTNode* parent );
 
+void		RBT_PrintTree( RBTNode* Node, int Depth, int BlackCount );
 
 #endif
