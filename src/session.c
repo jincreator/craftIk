@@ -24,7 +24,6 @@ void craftIk_session_add( int sockfd )
 
 #ifdef DEBUG
 	fprintf(stderr,"[DEBUG] craftIk session added : fd(%d)\n", sockfd);
-	RBT_PrintTree( sessions, 0, 0 );
 #endif
 
 }
@@ -36,7 +35,6 @@ void craftIk_session_del( int sockfd )
 	if( toremove == NULL ){
 #ifdef DEBUG
 		fprintf(stderr,"[DEBUG] no node found to delete : fd(%d)\n", sockfd);
-		RBT_PrintTree( sessions, 0, 0);
 #endif
 	} else {
 		free( toremove->data );
