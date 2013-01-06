@@ -207,6 +207,7 @@ void proc_0x02(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
 #endif
 
 	// TODO : 0xFD encryption request
+	
 }
 
 void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
