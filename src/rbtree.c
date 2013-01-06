@@ -72,17 +72,13 @@ RBTNode* RBT_SearchMinNode( RBTNode* tree )
 
 void RBT_InsertNode( RBTNode** tree, RBTNode* newnode )
 {
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
 	RBT_InsertNodeHelper( tree, newnode );
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
 
 	newnode->color = RED;
 	newnode->left = nil;
 	newnode->right = nil;
 
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
 	RBT_RebuildAfterInsert( tree, newnode );
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
 }
 
 

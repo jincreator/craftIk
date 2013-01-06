@@ -19,6 +19,9 @@ typedef struct __RBTNode
 
 } RBTNode;
 
+RBTNode* nil;
+
+void		RBT_InitNil();
 void		RBT_DestroyTree( RBTNode* tree );
 
 RBTNode*	RBT_CreateNode( int key, void* data );

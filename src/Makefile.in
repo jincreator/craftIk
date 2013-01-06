@@ -124,14 +124,14 @@ am_libctworkerprocs_la_OBJECTS = worker_procs.lo packet.lo proc_lib.lo \
 	session.lo
 libctworkerprocs_la_OBJECTS = $(am_libctworkerprocs_la_OBJECTS)
 libproclib_la_LIBADD =
-am_libproclib_la_OBJECTS = proc_lib.lo
+am_libproclib_la_OBJECTS = proc_lib.lo event.lo
 libproclib_la_OBJECTS = $(am_libproclib_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_craftik_OBJECTS = craftik.$(OBJEXT)
 craftik_OBJECTS = $(am_craftik_OBJECTS)
 craftik_DEPENDENCIES = libctinit.la libctprocess.la libctevent.la \
 	libctpacket.la libctmasterprocs.la libctworkerprocs.la \
-	libctsetting.la libctsession.la libctrbtree.la
+	libctsetting.la libctsession.la libctrbtree.la libproclib.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -288,11 +288,11 @@ libctevent_la_SOURCES = event.c epoll.c
 libctpacket_la_SOURCES = packet.c
 libctmasterprocs_la_SOURCES = master_procs.c
 libctworkerprocs_la_SOURCES = worker_procs.c packet.c proc_lib.c session.c
-libproclib_la_SOURCES = proc_lib.c
+libproclib_la_SOURCES = proc_lib.c event.c
 libctsession_la_SOURCES = session.c rbtree.c
 libctrbtree_la_SOURCES = rbtree.c
 craftik_SOURCES = craftik.c
-craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la
+craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la
 all: all-am
 
 .SUFFIXES:

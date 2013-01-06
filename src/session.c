@@ -2,8 +2,6 @@
 
 void craftIk_session_init()
 {
-	//nil = RBT_CreateNode( -1, NULL );
-	//nil->color = BLACK;
 	RBT_InitNil();
 	sessions=NULL;
 

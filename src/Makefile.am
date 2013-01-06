@@ -12,4 +12,4 @@ libctsession_la_SOURCES=session.c rbtree.c
 libctrbtree_la_SOURCES=rbtree.c
 bin_PROGRAMS=craftik
 craftik_SOURCES=craftik.c
-craftik_LDADD=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la
+craftik_LDADD=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la

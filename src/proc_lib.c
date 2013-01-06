@@ -61,5 +61,5 @@ int ucs_str_length(const char* str, int arr_size){
 }
 
 void send_keep_alive(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
-		
+//		
 }
