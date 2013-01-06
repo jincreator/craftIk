@@ -5,10 +5,8 @@ void add_clnt(share* shared, craftIk_epoll* clnt_epoll){
 	int clnt_addr_size= sizeof(clnt_addr);
 	int clnt_sock= accept(clnt_epoll->listenfd, (struct sockaddr*)&clnt_addr, (socklen_t*)&clnt_addr_size);
 
-	if(clnt_sock>0){
-		craftIk_epoll_add(clnt_epoll, clnt_sock);
-		craftIk_session_add( clnt_sock );
-	}
+	craftIk_epoll_add(clnt_epoll, clnt_sock);
+	craftIk_session_add( clnt_sock );
 }
 
 void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){

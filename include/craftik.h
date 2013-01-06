@@ -7,6 +7,7 @@
 #include <errno.h>
 
 #include <openssl/rsa.h>
+#include <openssl/rand.h>
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>

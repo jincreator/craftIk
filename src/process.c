@@ -37,7 +37,6 @@ void run_master(share* shared) {
 		perror("sv_worker malloc()");
 	}
 
-printf("[DEBUG] number of workers to create : %d\n", num_workers);
 	for(int i=0;i<num_workers;i++) {
 		int sv[2];
 		if(socketpair(AF_UNIX,SOCK_STREAM,0,sv)!=0) {

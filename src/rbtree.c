@@ -192,11 +192,9 @@ void RBT_RebuildAfterInsert( RBTNode** root, RBTNode* x )
        }
        else 
        {
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
             RBTNode* Uncle = x->parent->parent->left;
            if ( Uncle->color == RED ) 
            {
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
                x->parent->color         = BLACK;
                Uncle->color                   = BLACK;
                x->parent->parent->color = RED;
@@ -205,10 +203,8 @@ printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
            }
            else 
            {
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
                if ( x == x->parent->left ) 
                {
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
                    x = x->parent;
                    RBT_RotateRight( root, x );
                }
@@ -219,7 +215,6 @@ printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
            }
        }
     }
-printf("[DEBUG] %d:%s\n", __LINE__,__FUNCTION__);
 
     (*root)->color = BLACK;
 }

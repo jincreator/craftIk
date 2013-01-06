@@ -2,8 +2,9 @@
 
 void craftIk_session_init()
 {
-	RBT_InitNil();
 	sessions=NULL;
+	RBT_InitNil();
+	RBT_InsertNode( &sessions, RBT_CreateNode(0, NULL) );
 
 #ifdef DEBUG
 	fprintf(stderr, "[DEBUG] craftIk session manager initialized\n");
