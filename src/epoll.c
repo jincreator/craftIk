@@ -45,7 +45,7 @@ void craftIk_epoll_del( struct craftIk_epoll* epoll, int clifd )
 
 int craftIk_epoll_getEvents( struct craftIk_epoll* epoll )
 {
-	return epoll_wait( epoll->epfd, epoll->events, epoll->max_clients, 0.1);
+	return epoll_wait( epoll->epfd, epoll->events, epoll->max_clients, -1);
 }
 
 

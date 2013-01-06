@@ -149,6 +149,66 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
 	send(clnt_epoll->events[clnt_num].data.fd, packet, 73, 0);
 }
 
+void proc_0x02(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
+{
+	unsigned char protocolv;
+	short slen;
+	short* string;
+	short* serv_host;
+	int port;
+
+	recv(clnt_epoll->events[clnt_num].data.fd, &protocolv, sizeof(char), 0);
+
+#ifdef DEBUG
+	fprintf(stderr, "[DEBUG] %d:%s protocol version:%d\n",__LINE__,__FUNCTION__,(int)protocolv);
+#endif
+
+	recv(clnt_epoll->events[clnt_num].data.fd, &slen, sizeof(short), 0);
+	slen = ntohs(slen);
+
+#ifdef DEBUG
+	fprintf(stderr,"[DEBUG] %d:%s slen:%d\n",__LINE__,__FUNCTION__,(int)slen);
+#endif
+
+	string = (short*)malloc(sizeof(short)*slen);
+	recv(clnt_epoll->events[clnt_num].data.fd, string, sizeof(short)*slen, 0);
+
+#ifdef DEBUG
+	fprintf(stderr,"[DEBUG] %d:%s string --> ",__LINE__,__FUNCTION__);
+	for(int i=0; i<slen; i++){
+		fprintf(stderr,"%x ", (int)string[i]);
+	}
+	fprintf(stderr,"\n");
+#endif
+
+	recv(clnt_epoll->events[clnt_num].data.fd, &slen, sizeof(short), 0);
+	slen = ntohs(slen);
+
+#ifdef DEBUG
+        fprintf(stderr,"[DEBUG] %d:%s slen:%d\n",__LINE__,__FUNCTION__,(int)slen);
+#endif
+
+	serv_host = (short*)malloc(sizeof(short)*slen);
+	recv(clnt_epoll->events[clnt_num].data.fd, serv_host, sizeof(short)*slen, 0);
+
+#ifdef DEBUG
+        fprintf(stderr,"[DEBUG] %d:%s string --> ",__LINE__,__FUNCTION__);
+        for(int i=0; i<slen; i++){
+                fprintf(stderr,"%x ", (int)serv_host[i]);
+        }
+        fprintf(stderr,"\n");
+#endif
+
+	recv(clnt_epoll->events[clnt_num].data.fd, &port, sizeof(short)*slen, 0);
+	port = ntohl(port);
+
+#ifdef DEBUG
+	fprintf(stderr,"[DEBUG] %d:%s port:%d\n",__LINE__,__FUNCTION__,port);
+#endif
+
+	// TODO : 0xFD encryption request
+}
+
 void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1];
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);

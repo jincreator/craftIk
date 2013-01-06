@@ -19,17 +19,28 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 		craftIk_epoll_del(clnt_epoll, clnt_epoll->events[clnt_num].data.fd);
 		craftIk_session_del( clnt_epoll->events[clnt_num].data.fd );
 	} else{
-		if((int)proto_type == 0xFE){
-			proc_0xFE(shared, clnt_epoll, clnt_num);
+
+		switch( proto_type ){
+			case 0xFE:
+				proc_0xFE(shared, clnt_epoll, clnt_num);
+				break;
+
+			case 0x02:
+				proc_0x02(shared, clnt_epoll, clnt_num);
+				break;
+
+			case 0x0B:
+				proc_0x0B(shared, clnt_epoll, clnt_num);
+				break;
+
+			case 0x0A:
+				proc_0x0A(shared, clnt_epoll, clnt_num);
+				break;
+
+			case 0x00:
+				proc_0x00(shared, clnt_epoll, clnt_num);
+				break;
 		}
-		if((int)proto_type == 0x0B){
-			proc_0x0B(shared, clnt_epoll, clnt_num);
-		}
-		if((int)proto_type == 0x0A){
-			proc_0x0A(shared, clnt_epoll, clnt_num);
-		}
-		if((int)proto_type == 0x00){
-			proc_0x00(shared, clnt_epoll, clnt_num);
-		}
+
 	}
 }
