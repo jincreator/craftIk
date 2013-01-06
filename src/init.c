@@ -15,15 +15,16 @@ share* init() {
 	shared->conn=(connections*)malloc(sizeof(connections));
 	read_setting(shared);
 
-
-  puts("+------------------------------");
-  puts("| Settings Result      ");
-  puts("|                      ");
-printf("| Server port : %d\n", shared->prop->port);
-printf("| Server workers : %d\n", shared->prop->num_workers);
-printf("| Connections per workers : %d\n", shared->prop->num_connections_per_worker);
-  puts("+------------------------------");
+#ifdef DEBUG
+  puts("+--------------------------------+");
+  puts("| Settings Result                |");
+  puts("|                                |");
+printf("| Server port : %5d            |\n", shared->prop->port);
+printf("| Server workers : %2d            |\n", shared->prop->num_workers);
+printf("| Connections per workers : %3d  |\n", shared->prop->num_connections_per_worker);
+  puts("+--------------------------------+");
   puts("");
+#endif
 
 	clock_t init_end=clock();
 	printf("[INFO] Done (%.3fs)! For help, type \"help\" or \"?\"\n",

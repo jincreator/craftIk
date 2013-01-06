@@ -13,7 +13,6 @@ typedef struct craftIk_session
 
 } craftIk_session;
 
-RBTNode* nil;
 RBTNode* sessions;
 
 
@@ -22,5 +21,6 @@ void craftIk_session_add( int sockfd );
 void craftIk_session_del( int sockfd );
 
 craftIk_session* craftIk_session_get( int sockfd );
+
 
 #endif
