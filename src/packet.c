@@ -10,8 +10,22 @@ void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 	proc_0xFF(shared, clnt_epoll, clnt_num);
 }
-/*
 void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
+#ifdef DEBUG
+	shared->prop->protocol_version= 44;
+	shared->prop->server_version[1]= '4';
+	shared->prop->server_version[3]= '.';
+	shared->prop->server_version[5]= '4';
+	shared->prop->server_version[7]= '.';
+	shared->prop->server_version[9]= '4';
+	shared->prop->motd[1]='D';
+	shared->prop->motd[3]='E';
+	shared->prop->motd[5]='B';
+	shared->prop->motd[7]='U';
+	shared->prop->motd[9]='G';
+	shared->player_count= 44;
+	shared->prop->max_players= 4444;
+#endif
 	const char* motd= shared->prop->motd;
 	int motd_length= ucs_str_length(motd, 1024);
 	const char* serv_ver= shared->prop->server_version;
@@ -28,7 +42,6 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1024];
 
 	short cur_length=0;
-
 	memset(message, 0, sizeof(message));
 	
 	temp= proto_ver;
@@ -67,14 +80,14 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	for(int i=0; i<ver_length; i++){
 		message[cur_length+i]= serv_ver[i];
 	}
-	cur_length+= ver_length* 2;// length of server version
+	cur_length+= ver_length;// length of server version
 
 	cur_length+= 2;//length of motd delimeter
 
 	for(int i=0; i<motd_length; i++){
 		message[cur_length+i]= motd[i];
 	}
-	cur_length+= motd_length* 2;// length of motd
+	cur_length+= motd_length;// length of motd
 
 	cur_length+= 2;//length of cur player count delimeter
 
@@ -86,7 +99,7 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	}
 
 	cur_length+= cur_player_len* 2;// length of cur player count
-
+	cur_length+=2; //length of max player delimeter
 	for(int i=0; i< max_player_len; i++){
 		message[cur_length+2*(max_player_len-i)-1]
 			=max_player% 10+ '0';
@@ -94,59 +107,18 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	}
 
 	cur_length+= max_player_len* 2;// length of max player
-
 	cur_length-=3;
-	memcpy(message+1, &cur_length, sizeof(short));
+	cur_length/=2;
+	message[2]= cur_length%256;
+	message[1]= cur_length/256;
+	cur_length*=2;
+	for(int i=0; i<cur_length+3; i++){
+		printf("%d ", message[i]);
+		if(i%16== 15){
+			printf("\n");
+		}
+	}
 	send(clnt_epoll->events[clnt_num].data.fd, message, cur_length+3, 0);
-}
-*/
-
-void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
-{
-	char* packet = malloc(1024);
-	const char* motd= shared->prop->motd;
-
-	memset(packet, 0x00, 1024);
-
-	packet[0] = 0xff;
-	packet[2] = 0x23;
-	packet[4] = 0xa7;
-	packet[6] = 0x31;
-	packet[8] = 0x00;
-	packet[10] = 0x35;
-	packet[12] = 0x31;
-	packet[14] = 0x00;
-	packet[16] = 0x31;
-	packet[18] = 0x2e;
-	packet[20] = 0x34;
-	packet[22] = 0x2e;
-	packet[24] = 0x36;
-	packet[26] = 0x00;
-	packet[28] = 0x41;
-	packet[30] = 0x20;
-	packet[32] = 0x4d;
-	packet[34] =0x69;
-	packet[36] = 0x6e;
-	packet[38] = 0x65;
-	packet[40] = 0x63;
-	packet[42] = 0x72;
-	packet[44] = 0x61;
-	packet[46] = 0x66;
-	packet[48] = 0x74;
-	packet[50] = 0x20;
-	packet[52] = 0x53;
-	packet[54] = 0x65;
-	packet[56] = 0x72;
-	packet[58] = 0x76;
-	packet[60] = 0x65;
-	packet[62] = 0x72;
-	packet[64] = 0x00;
-	packet[66] = 0x30;
-	packet[68] = 0x00;
-	packet[70] = 0x32;
-	packet[72] = 0x30;
-
-	send(clnt_epoll->events[clnt_num].data.fd, packet, 73, 0);
 }
 
 void proc_0x02(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
