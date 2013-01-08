@@ -7,7 +7,7 @@
 
 void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1];
-	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
+//	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 	proc_0xFF(shared, clnt_epoll, clnt_num);
 }
 void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){

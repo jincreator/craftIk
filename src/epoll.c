@@ -24,7 +24,6 @@ void craftIk_epoll_init( struct craftIk_epoll* epoll, int listenfd, int max_clie
 void craftIk_epoll_add( struct craftIk_epoll* epoll, int clifd )
 {
 	struct epoll_event ev;
-	
 	nonblock(clifd);
 	ev.events = EPOLLIN | EPOLLET;
 	ev.data.fd = clifd;
