@@ -12,12 +12,12 @@ void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 }
 void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 #ifdef DEBUG
-	shared->prop->protocol_version= 44;
-	shared->prop->server_version[1]= '4';
+	shared->prop->protocol_version= 29;
+	shared->prop->server_version[1]= '1';
 	shared->prop->server_version[3]= '.';
-	shared->prop->server_version[5]= '4';
+	shared->prop->server_version[5]= '2';
 	shared->prop->server_version[7]= '.';
-	shared->prop->server_version[9]= '4';
+	shared->prop->server_version[9]= '5';
 	shared->prop->motd[1]='D';
 	shared->prop->motd[3]='E';
 	shared->prop->motd[5]='B';
