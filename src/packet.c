@@ -23,8 +23,8 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	shared->prop->motd[5]='B';
 	shared->prop->motd[7]='U';
 	shared->prop->motd[9]='G';
-	shared->player_count= 44;
-	shared->prop->max_players= 4444;
+	shared->player_count= 25;
+	shared->prop->max_players= 255;
 #endif
 	const char* motd= shared->prop->motd;
 	int motd_length= ucs_str_length(motd, 1024);
@@ -123,63 +123,158 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 void proc_0x02(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
 {
-	int i;
-	unsigned char protocolv;
-	short slen;
-	short* string;
-	int port;
+	short len;
+	recv(clnt_epoll->events[clnt_num].data.fd, &len, sizeof(short), 0);
+	len = ntohs(len);
 
+	short* data = (short*)malloc(sizeof(short)*len);
+	char* string = (char*)malloc(sizeof(char)*len+1);
+	recv(clnt_epoll->events[clnt_num].data.fd, data, sizeof(short)*len, 0);
+	memset(string, 0x00, len+1);
+	for(int i=0; i<len; i++){
+		string[i] = ntohs(data[i]);
+	}
+	free(data);
 
-	recv(clnt_epoll->events[clnt_num].data.fd, &protocolv, sizeof(char), 0);
-
+	char username[50];
+	memset(username, 0x00, 50);
 #ifdef DEBUG
-	fprintf(stderr, "[DEBUG] %d:%s protocol version:%d\n",__LINE__,__FUNCTION__,(int)protocolv);
+	fprintf(stderr,"[DEBUG] handshake : %s\n", string);
 #endif
-
-	recv(clnt_epoll->events[clnt_num].data.fd, &slen, sizeof(short), 0);
-	slen = ntohs(slen);
-
-#ifdef DEBUG
-	fprintf(stderr,"[DEBUG] %d:%s slen:%d\n",__LINE__,__FUNCTION__,(int)slen);
-#endif
-
-	string = (short*)malloc(sizeof(short)*slen);
-	recv(clnt_epoll->events[clnt_num].data.fd, string, sizeof(short)*slen, 0);
+	for(int i=0; string[i] != ';'; i++){
+		username[i] = string[i];
+	}
+	free(string);
 
 	craftIk_session* thisession = craftIk_session_get( clnt_epoll->events[clnt_num].data.fd );
-	for(i=0; i<slen; i++){
-                thisession->username[i] = (char)ntohs(string[i]);
-        }
+	strcpy(thisession->username, username);
+
+#ifdef DEBUG
+	fprintf(stderr, "[DEBUG] username added to session : %s\n", thisession->username);
+#endif
+
+	// TODO : send 0x02 hash '-'
+	char packet[10];
+	packet[0] = 0x02;
+	packet[1] = 0x00;
+	packet[2] = 0x01;
+	packet[3] = 0x00;
+	packet[4] = '-';
+	send(clnt_epoll->events[clnt_num].data.fd, packet, 5, 0);
+}
+
+void proc_0x01(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
+{
+	int pversion;
+	recv(clnt_epoll->events[clnt_num].data.fd, &pversion, sizeof(int), 0);
+	pversion = ntohl(pversion);
+#ifdef DEBUG
+	fprintf(stderr, "[DEBUG] protocol version %d\n", pversion);
+#endif
+
+	short len;
+	short* data;
+	char* string;
+	recv(clnt_epoll->events[clnt_num].data.fd, &len, sizeof(short), 0);
+	len = ntohs(len);
+
+	data = (short*)malloc(sizeof(short)*len);
+	string = (char*)malloc(sizeof(char)*len + 1);
+	memset(string, 0x00, len+1);
+	recv(clnt_epoll->events[clnt_num].data.fd, data, sizeof(short)*len, 0);
+	for(int i=0; i<len; i++){
+		string[i] = (char)ntohs(data[i]);
+	}
+#ifdef DEBUG
+	fprintf(stderr,"[DEBUG] 0x01 username : %s\n", string);
+#endif
+	free(data);
 	free(string);
+
+	len = 0;
+	data = NULL;
+	string = NULL;
+	recv(clnt_epoll->events[clnt_num].data.fd, &len, sizeof(short), 0);
+        len = ntohs(len);
+
+	if(len > 0){
+		data = (short*)malloc(sizeof(short)*len);
+	       	string = (char*)malloc(sizeof(char)*len + 1);
+	        memset(string, 0x00, len+1);
+	        recv(clnt_epoll->events[clnt_num].data.fd, data, sizeof(short)*len, 0);
+	        for(int i=0; i<len; i++){
+	                string[i] = (char)ntohs(data[i]);
+	        }
 #ifdef DEBUG
-	fprintf(stderr,"[DEBUG] %d:%s username >> %s\n", __LINE__,__FUNCTION__,thisession->username);
+        	fprintf(stderr,"[DEBUG] 0x01 empty string  [%d,%s]\n",len, string);
 #endif
+		free(data);
+		free(string);
+	}
 
-	recv(clnt_epoll->events[clnt_num].data.fd, &slen, sizeof(short), 0);
-	slen = ntohs(slen);
-#ifdef DEBUG
-        fprintf(stderr,"[DEBUG] %d:%s slen:%d\n",__LINE__,__FUNCTION__,(int)slen);
-#endif
-	string = (short*)malloc(sizeof(short)*slen);
-	recv(clnt_epoll->events[clnt_num].data.fd, string, sizeof(short)*slen, 0);
+	void* flush = malloc(11);
+	recv(clnt_epoll->events[clnt_num].data.fd, flush, 11, 0);
+	free(flush);
 
-#ifdef DEBUG
-        fprintf(stderr,"[DEBUG] %d:%s string --> ",__LINE__,__FUNCTION__);
-        for(int i=0; i<slen; i++){
-                fprintf(stderr,"%x ", (int)string[i]);
-        }
-        fprintf(stderr,"\n");
-#endif
 
-	recv(clnt_epoll->events[clnt_num].data.fd, &port, sizeof(short)*slen, 0);
-	port = ntohl(port);
+	// send from here
+	int plen = 0;
+	craftIk_session* thisession = craftIk_session_get( clnt_epoll->events[clnt_num].data.fd );
 
-#ifdef DEBUG
-	fprintf(stderr,"[DEBUG] %d:%s port:%d\n",__LINE__,__FUNCTION__,port);
-#endif
+	char packet[256];
+	memset(packet, 0x00, 256);
+	packet[0] = 0x01;
+	plen++;
 
-	// TODO : 0xFD encryption request
+	int eid = thisession->EID;
+	eid = htonl(eid);
+	memcpy( &packet[plen], &eid, sizeof(int) );
+	plen += sizeof(int);
+
+	len = 0;
+	string = NULL;
+	data = NULL;
+	memcpy( &packet[plen], &len, sizeof(short) );
+	plen += sizeof(short);
+
+	len = strlen("default");
+	string = (char*)malloc(sizeof(char)*len+1);
+	data = (short*)malloc(sizeof(short)*len);
+	strcpy(string, "default");
+	for(int i=0; i<len; i++){
+		data[i] = htons((short)string[i]);
+	}
+	len = htons(len);
+	memcpy( &packet[plen], &len, sizeof(short) );
+	plen += sizeof(short);
+
+	len = ntohs(len);
+	memcpy( &packet[plen], data, sizeof(short)*len );
+	plen += sizeof(short)*len;
+
+	int idata = 0;
+	idata = htonl(idata);
+	memcpy( &packet[plen], &idata, sizeof(int) );
+	plen += sizeof(int);
+
+	idata = 0;
+	idata = htonl(idata);
+	memcpy( &packet[plen], &idata, sizeof(int) );
+	plen += sizeof(int);
+
+	char cdata = 0;
+	memcpy( &packet[plen], &cdata, sizeof(char) );
+	plen += sizeof(char);
+
+	cdata = 0; // not used
+	memcpy( &packet[plen], &cdata, sizeof(char) );
+	plen += sizeof(char);
 	
+	cdata =shared->prop->max_players; // max player
+	memcpy( &packet[plen], &cdata, sizeof(char) );
+	plen += sizeof(char);
+
+	send(clnt_epoll->events[clnt_num].data.fd, packet, plen, 0);
 }
 
 void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){

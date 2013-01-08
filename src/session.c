@@ -19,6 +19,7 @@ void craftIk_session_add( int sockfd )
 
 	key = sockfd;
 	newsession = malloc(sizeof(craftIk_session));
+	newsession->EID = sockfd;
 
 	RBT_InsertNode( &sessions, RBT_CreateNode(key,newsession) ); 
 

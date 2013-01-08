@@ -20,6 +20,10 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 		craftIk_session_del( clnt_epoll->events[clnt_num].data.fd );
 	} else{
 
+#ifdef DEBUG
+	fprintf(stderr,"[DEBUG] incoming packet 0x%x\n", (int)proto_type);
+#endif
+
 		switch( proto_type ){
 			case 0xFE:
 				proc_0xFE(shared, clnt_epoll, clnt_num);
@@ -27,6 +31,10 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 			case 0x02:
 				proc_0x02(shared, clnt_epoll, clnt_num);
+				break;
+
+			case 0x01:
+				proc_0x01(shared, clnt_epoll, clnt_num);
 				break;
 
 			case 0x0B:
