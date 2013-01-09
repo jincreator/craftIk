@@ -7,11 +7,11 @@
 
 void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1];
-	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
+	//recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 	proc_0xFF(shared, clnt_epoll, clnt_num);
 }
 void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
-#ifdef DEBUG
+
 	shared->prop->protocol_version= 29;
 	shared->prop->server_version[1]= '1';
 	shared->prop->server_version[3]= '.';
@@ -25,7 +25,7 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	shared->prop->motd[9]='G';
 	shared->player_count= 25;
 	shared->prop->max_players= 255;
-#endif
+
 	const char* motd= shared->prop->motd;
 	int motd_length= ucs_str_length(motd, 1024);
 	const char* serv_ver= shared->prop->server_version;
@@ -112,12 +112,7 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	message[2]= cur_length%256;
 	message[1]= cur_length/256;
 	cur_length*=2;
-	for(int i=0; i<cur_length+3; i++){
-		printf("%d ", message[i]);
-		if(i%16== 15){
-			printf("\n");
-		}
-	}
+
 	send(clnt_epoll->events[clnt_num].data.fd, message, cur_length+3, 0);
 }
 
