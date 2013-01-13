@@ -5,7 +5,7 @@ bool alive_tick_cool(){
 	return true;
 }
 
-players* getThisPlayer(){//TODO
+players* getThisPlayer(int clnt_fd){//TODO
 	players* P= NULL;
 
 	return P;

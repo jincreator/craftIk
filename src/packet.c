@@ -12,12 +12,12 @@ void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 }
 void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 #ifdef DEBUG
-	shared->prop->protocol_version= 29;
+	shared->prop->protocol_version= 51;
 	shared->prop->server_version[1]= '1';
 	shared->prop->server_version[3]= '.';
-	shared->prop->server_version[5]= '2';
+	shared->prop->server_version[5]= '4';
 	shared->prop->server_version[7]= '.';
-	shared->prop->server_version[9]= '5';
+	shared->prop->server_version[9]= '6';
 	shared->prop->motd[1]='D';
 	shared->prop->motd[3]='E';
 	shared->prop->motd[5]='B';
@@ -280,7 +280,7 @@ void proc_0x01(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
 void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1];
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
-	players* thisPlayer= getThisPlayer();
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);
 	memcpy(&(thisPlayer->on_ground), message, sizeof(thisPlayer->on_ground));
 	if(alive_tick_cool()== true){//TODO: alive_tick_cool
 		send_keep_alive(shared, clnt_epoll, clnt_num);//TODO: send_keep_alive
@@ -291,13 +291,48 @@ void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 	char message[33];
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
-	players* thisPlayer= getThisPlayer();//TODO: make get this player
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);//TODO: make get this player
 	memcpy(&(thisPlayer->abs_x_pos), message, sizeof(thisPlayer->abs_x_pos));
 	memcpy(&(thisPlayer->abs_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
 	memcpy(&(thisPlayer->stance), message+ 16, sizeof(thisPlayer->stance));
 	memcpy(&(thisPlayer->abs_z_pos), message+ 24, sizeof(thisPlayer->abs_z_pos));
 	memcpy(&(thisPlayer->on_ground), message+ 32, sizeof(thisPlayer->on_ground));
 
+}
+
+void proc_0x0C(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
+	char message[9];
+
+	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
+
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);
+
+	memcpy(&(thisPlayer->yaw), message, sizeof(thisPlayer->yaw));
+	memcpy(&(thisPlayer->pitch), message+ 4, sizeof(thisPlayer->pitch));
+	memcpy(&(thisPlayer->on_ground), message+ 9, sizeof(thisPlayer->on_ground));
+		
+}
+
+void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
+	char message[41]={0};
+	
+	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
+
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);
+	
+	memcpy(&(thisPlayer->abs_x_pos), message, sizeof(thisPlayer->abs_x_pos));
+	memcpy(&(thisPlayer->abs_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
+	memcpy(&(thisPlayer->stance), message+ 16, sizeof(thisPlayer->stance));
+	memcpy(&(thisPlayer->abs_z_pos), message+ 24, sizeof(thisPlayer->abs_z_pos));
+	memcpy(&(thisPlayer->yaw), message+ 32, sizeof(thisPlayer->yaw));
+	memcpy(&(thisPlayer->pitch), message+ 36, sizeof(thisPlayer->pitch));
+	memcpy(&(thisPlayer->on_ground), message+ 40, sizeof(thisPlayer->on_ground));
+
+	memcpy(message+ 8, &(thisPlayer->stance), sizeof(thisPlayer->stance));
+	memcpy(message+ 16, &(thisPlayer->abs_y_pos), sizeof(thisPlayer->abs_y_pos));
+
+
+	send(clnt_epoll->events[clnt_num].data.fd, message, sizeof(message), 0);
 }
 
 void proc_0x00(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){//TODO
