@@ -6,23 +6,24 @@ void add_clnt(share* shared, craftIk_epoll* clnt_epoll){
 	int clnt_addr_size= sizeof(clnt_addr);
 	int clnt_sock= accept(clnt_epoll->listenfd, (struct sockaddr*)&clnt_addr, (socklen_t*)&clnt_addr_size);
 	
-	if(clnt_sock< 0){
-		return;
+	if(clnt_sock > 0){
+		craftIk_epoll_add(clnt_epoll, clnt_sock);
+		craftIk_session_add( clnt_sock );
 	}
 
-	craftIk_epoll_add(clnt_epoll, clnt_sock);
-	craftIk_session_add( clnt_sock );
 }
 
 void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	unsigned char proto_type;
 
 
-	int res= recv(clnt_epoll->events[clnt_num].data.fd, &proto_type, (size_t)sizeof(proto_type), 0);
+	int res = recv(clnt_epoll->events[clnt_num].data.fd, &proto_type, (size_t)sizeof(proto_type), 0);
 	
 	if(res <= 0){
-		craftIk_epoll_del(clnt_epoll, clnt_epoll->events[clnt_num].data.fd);
-		craftIk_session_del( clnt_epoll->events[clnt_num].data.fd );
+		int sockfd = clnt_epoll->events[clnt_num].data.fd;
+		craftIk_epoll_del(clnt_epoll, sockfd);
+		craftIk_session_del( sockfd );
+		close(sockfd);
 	} else{
 
 #ifdef DEBUG
@@ -33,7 +34,10 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 			case 0xFE:
 				proc_0xFE(shared, clnt_epoll, clnt_num);
 				break;
+			default:
+				exit(1);
 
+/*
 			case 0x02:
 				proc_0x02(shared, clnt_epoll, clnt_num);
 				break;
@@ -53,6 +57,7 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 			case 0x00:
 				proc_0x00(shared, clnt_epoll, clnt_num);
 				break;
+*/
 		}
 
 	}
