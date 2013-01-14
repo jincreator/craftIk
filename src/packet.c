@@ -280,7 +280,7 @@ void proc_0x01(share* shared, craftIk_epoll* clnt_epoll, int clnt_num)
 void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1];
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
-	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
 	memcpy(&(thisPlayer->on_ground), message, sizeof(thisPlayer->on_ground));
 	if(alive_tick_cool()== true){//TODO: alive_tick_cool
 		send_keep_alive(shared, clnt_epoll, clnt_num);//TODO: send_keep_alive
@@ -290,8 +290,17 @@ void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 	char message[33];
+	double new_x_pos, new_y_pos, new_stance, new_z_pos;
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
-	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);//TODO: make get this player
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);//TODO: make get this player
+
+	memcpy(&(new_x_pos), message, sizeof(thisPlayer->abs_x_pos));
+	memcpy(&(new_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
+	memcpy(&(new_stance), message+ 16, sizeof(thisPlayer->stance));
+	memcpy(&(new_z_pos), message+ 24, sizeof(thisPlayer->abs_z_pos));
+
+	detect_illegal_stance(shared, clnt_epoll, clnt_num, new_y_pos, new_stance);
+
 	memcpy(&(thisPlayer->abs_x_pos), message, sizeof(thisPlayer->abs_x_pos));
 	memcpy(&(thisPlayer->abs_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
 	memcpy(&(thisPlayer->stance), message+ 16, sizeof(thisPlayer->stance));
@@ -305,7 +314,7 @@ void proc_0x0C(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 
-	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
 
 	memcpy(&(thisPlayer->yaw), message, sizeof(thisPlayer->yaw));
 	memcpy(&(thisPlayer->pitch), message+ 4, sizeof(thisPlayer->pitch));
@@ -318,7 +327,7 @@ void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 
-	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].fd);
+	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
 	
 	memcpy(&(thisPlayer->abs_x_pos), message, sizeof(thisPlayer->abs_x_pos));
 	memcpy(&(thisPlayer->abs_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
