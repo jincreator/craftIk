@@ -12,7 +12,6 @@ void proc_0xFE(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 }
 
 void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
-<<<<<<< HEAD
 #ifdef DEBUG
 
 	shared->prop->server_version[1]= '1';
@@ -27,7 +26,7 @@ void proc_0xFF(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	shared->prop->motd[9]='G';
 	shared->player_count= 25;
 	shared->prop->max_players= 255;
-
+#endif
 	const char* motd= shared->prop->motd;
 	int motd_length= ucs_str_length(motd, 1024);
 	const char* serv_ver= shared->prop->server_version;
