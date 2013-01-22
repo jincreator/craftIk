@@ -278,6 +278,12 @@ void proc_0x0A(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[1];
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
+	if(thisPlayer== NULL){
+		printf("Warning in packet.0x0A(): thisPlayer is NULL memory leak will occure\n");
+		thisPlayer= (players*)malloc(sizeof(players));
+	}
+
+
 	memcpy(&(thisPlayer->on_ground), message, sizeof(thisPlayer->on_ground));
 	if(alive_tick_cool()== true){//TODO: alive_tick_cool
 		send_keep_alive(shared, clnt_epoll, clnt_num);//TODO: send_keep_alive
@@ -292,7 +298,7 @@ void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);//TODO: make get this player
 
 	if(thisPlayer== NULL){
-		printf("Warning in packet.0x0B(): thisPlayer is NULL\n");
+		printf("Warning in packet.0x0B(): thisPlayer is NULL memory leak will occure\n");
 		thisPlayer= (players*)malloc(sizeof(players));
 	}
 
@@ -317,11 +323,13 @@ void proc_0x0C(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 
 	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
-
+	if(thisPlayer== NULL){
+		printf("Warning in packet.0x0C(): thisPlayer is NULL memory leak will occure\n");
+		thisPlayer= (players*)malloc(sizeof(players));
+	}
 	memcpy(&(thisPlayer->yaw), message, sizeof(thisPlayer->yaw));
 	memcpy(&(thisPlayer->pitch), message+ 4, sizeof(thisPlayer->pitch));
-	memcpy(&(thisPlayer->on_ground), message+ 9, sizeof(thisPlayer->on_ground));
-		
+	memcpy(&(thisPlayer->on_ground), message+ 8, sizeof(thisPlayer->on_ground));
 }
 
 void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
@@ -332,7 +340,7 @@ void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
 	if(thisPlayer == NULL){
-		printf("Warning in packet.0x0D(): thisPlayer is NULL\n");
+		printf("Warning in packet.0x0D(): thisPlayer is NULL memory leak will occure\n");
 		thisPlayer= (players*)malloc(sizeof(players));
 	}
 
@@ -350,6 +358,11 @@ void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	memcpy(sendmessage+1, message, sizeof(message));
 
 	send(clnt_epoll->events[clnt_num].data.fd, sendmessage, sizeof(sendmessage), 0);
+
+#ifdef DEBUG
+	
+#endif
+
 }
 
 void proc_0x00(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){//TODO
