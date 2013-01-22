@@ -291,6 +291,11 @@ void proc_0x0B(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);//TODO: make get this player
 
+	if(thisPlayer== NULL){
+		printf("Warning in packet.0x0B(): thisPlayer is NULL\n");
+		thisPlayer= (players*)malloc(sizeof(players));
+	}
+
 	memcpy(&(new_x_pos), message, sizeof(thisPlayer->abs_x_pos));
 	memcpy(&(new_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
 	memcpy(&(new_stance), message+ 16, sizeof(thisPlayer->stance));
@@ -321,11 +326,16 @@ void proc_0x0C(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 	char message[41]={0};
+	char sendmessage[42]={0};
 	
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);
 
 	players* thisPlayer= getThisPlayer(clnt_epoll->events[clnt_num].data.fd);
-	
+	if(thisPlayer == NULL){
+		printf("Warning in packet.0x0D(): thisPlayer is NULL\n");
+		thisPlayer= (players*)malloc(sizeof(players));
+	}
+
 	memcpy(&(thisPlayer->abs_x_pos), message, sizeof(thisPlayer->abs_x_pos));
 	memcpy(&(thisPlayer->abs_y_pos), message+ 8, sizeof(thisPlayer->abs_y_pos));
 	memcpy(&(thisPlayer->stance), message+ 16, sizeof(thisPlayer->stance));
@@ -336,13 +346,14 @@ void proc_0x0D(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 
 	memcpy(message+ 8, &(thisPlayer->stance), sizeof(thisPlayer->stance));
 	memcpy(message+ 16, &(thisPlayer->abs_y_pos), sizeof(thisPlayer->abs_y_pos));
+	sendmessage[0]= 0x0D;
+	memcpy(sendmessage+1, message, sizeof(message));
 
-
-	send(clnt_epoll->events[clnt_num].data.fd, message, sizeof(message), 0);
+	send(clnt_epoll->events[clnt_num].data.fd, sendmessage, sizeof(sendmessage), 0);
 }
 
 void proc_0x00(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){//TODO
-	char message[1];
+	int message[1];
 	recv(clnt_epoll->events[clnt_num].data.fd, message, (size_t)sizeof(message), 0);	
 	
 }
