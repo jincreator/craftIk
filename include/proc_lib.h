@@ -3,6 +3,7 @@
 
 #include <memory.h>
 
+#include "craftik.h"
 #include "share.h"
 #include "event.h"
 

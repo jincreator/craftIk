@@ -1,7 +1,6 @@
 #ifndef _SETTING_H_
 #define _SETTING_H_
 
-#include <stdio.h>
 #include <time.h>
 #include <string.h>
 

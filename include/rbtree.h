@@ -2,9 +2,9 @@
 #define _RBTREE_H_
 
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+
+#include "craftik.h"
 
 typedef struct __RBTNode
 {
