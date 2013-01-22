@@ -99,6 +99,9 @@ libctpacket_la_OBJECTS = $(am_libctpacket_la_OBJECTS)
 libctprocess_la_LIBADD =
 am_libctprocess_la_OBJECTS = process.lo session.lo
 libctprocess_la_OBJECTS = $(am_libctprocess_la_OBJECTS)
+libctproclib_la_LIBADD =
+am_libctproclib_la_OBJECTS = proc_lib.lo event.lo
+libctproclib_la_OBJECTS = $(am_libctproclib_la_OBJECTS)
 libctrbtree_la_LIBADD =
 am_libctrbtree_la_OBJECTS = rbtree.lo
 libctrbtree_la_OBJECTS = $(am_libctrbtree_la_OBJECTS)
@@ -112,15 +115,12 @@ libctworkerprocs_la_LIBADD =
 am_libctworkerprocs_la_OBJECTS = worker_procs.lo packet.lo proc_lib.lo \
 	session.lo
 libctworkerprocs_la_OBJECTS = $(am_libctworkerprocs_la_OBJECTS)
-libproclib_la_LIBADD =
-am_libproclib_la_OBJECTS = proc_lib.lo event.lo
-libproclib_la_OBJECTS = $(am_libproclib_la_OBJECTS)
 PROGRAMS = $(bin_PROGRAMS)
 am_craftik_OBJECTS = craftik.$(OBJEXT)
 craftik_OBJECTS = $(am_craftik_OBJECTS)
 craftik_DEPENDENCIES = libctinit.la libctprocess.la libctevent.la \
 	libctpacket.la libctmasterprocs.la libctworkerprocs.la \
-	libctsetting.la libctsession.la libctrbtree.la libproclib.la \
+	libctsetting.la libctsession.la libctrbtree.la libctproclib.la \
 	libctcrypt.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
@@ -138,15 +138,15 @@ LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 SOURCES = $(libctcrypt_la_SOURCES) $(libctevent_la_SOURCES) \
 	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
 	$(libctpacket_la_SOURCES) $(libctprocess_la_SOURCES) \
-	$(libctrbtree_la_SOURCES) $(libctsession_la_SOURCES) \
-	$(libctsetting_la_SOURCES) $(libctworkerprocs_la_SOURCES) \
-	$(libproclib_la_SOURCES) $(craftik_SOURCES)
+	$(libctproclib_la_SOURCES) $(libctrbtree_la_SOURCES) \
+	$(libctsession_la_SOURCES) $(libctsetting_la_SOURCES) \
+	$(libctworkerprocs_la_SOURCES) $(craftik_SOURCES)
 DIST_SOURCES = $(libctcrypt_la_SOURCES) $(libctevent_la_SOURCES) \
 	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
 	$(libctpacket_la_SOURCES) $(libctprocess_la_SOURCES) \
-	$(libctrbtree_la_SOURCES) $(libctsession_la_SOURCES) \
-	$(libctsetting_la_SOURCES) $(libctworkerprocs_la_SOURCES) \
-	$(libproclib_la_SOURCES) $(craftik_SOURCES)
+	$(libctproclib_la_SOURCES) $(libctrbtree_la_SOURCES) \
+	$(libctsession_la_SOURCES) $(libctsetting_la_SOURCES) \
+	$(libctworkerprocs_la_SOURCES) $(craftik_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -265,7 +265,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
-lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libproclib.la libctsession.la libctrbtree.la libctcrypt.la
+lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctproclib.la libctsession.la libctrbtree.la libctcrypt.la
 libctinit_la_SOURCES = init.c
 libctsetting_la_SOURCES = setting.c
 libctprocess_la_SOURCES = process.c session.c
@@ -273,13 +273,13 @@ libctevent_la_SOURCES = event.c epoll.c
 libctpacket_la_SOURCES = packet.c session.c
 libctmasterprocs_la_SOURCES = master_procs.c
 libctworkerprocs_la_SOURCES = worker_procs.c packet.c proc_lib.c session.c
-libproclib_la_SOURCES = proc_lib.c event.c
+libctproclib_la_SOURCES = proc_lib.c event.c
 libctsession_la_SOURCES = session.c rbtree.c
 libctrbtree_la_SOURCES = rbtree.c
 libctcrypt_la_SOURCES = crypt.c
 libctcrypt_la_LDFLAGS = -lcrypto
 craftik_SOURCES = craftik.c
-craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la libctcrypt.la
+craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libctproclib.la libctcrypt.la
 all: all-am
 
 .SUFFIXES:
@@ -357,6 +357,8 @@ libctpacket.la: $(libctpacket_la_OBJECTS) $(libctpacket_la_DEPENDENCIES) $(EXTRA
 	$(LINK) -rpath $(libdir) $(libctpacket_la_OBJECTS) $(libctpacket_la_LIBADD) $(LIBS)
 libctprocess.la: $(libctprocess_la_OBJECTS) $(libctprocess_la_DEPENDENCIES) $(EXTRA_libctprocess_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctprocess_la_OBJECTS) $(libctprocess_la_LIBADD) $(LIBS)
+libctproclib.la: $(libctproclib_la_OBJECTS) $(libctproclib_la_DEPENDENCIES) $(EXTRA_libctproclib_la_DEPENDENCIES) 
+	$(LINK) -rpath $(libdir) $(libctproclib_la_OBJECTS) $(libctproclib_la_LIBADD) $(LIBS)
 libctrbtree.la: $(libctrbtree_la_OBJECTS) $(libctrbtree_la_DEPENDENCIES) $(EXTRA_libctrbtree_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctrbtree_la_OBJECTS) $(libctrbtree_la_LIBADD) $(LIBS)
 libctsession.la: $(libctsession_la_OBJECTS) $(libctsession_la_DEPENDENCIES) $(EXTRA_libctsession_la_DEPENDENCIES) 
@@ -365,8 +367,6 @@ libctsetting.la: $(libctsetting_la_OBJECTS) $(libctsetting_la_DEPENDENCIES) $(EX
 	$(LINK) -rpath $(libdir) $(libctsetting_la_OBJECTS) $(libctsetting_la_LIBADD) $(LIBS)
 libctworkerprocs.la: $(libctworkerprocs_la_OBJECTS) $(libctworkerprocs_la_DEPENDENCIES) $(EXTRA_libctworkerprocs_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctworkerprocs_la_OBJECTS) $(libctworkerprocs_la_LIBADD) $(LIBS)
-libproclib.la: $(libproclib_la_OBJECTS) $(libproclib_la_DEPENDENCIES) $(EXTRA_libproclib_la_DEPENDENCIES) 
-	$(LINK) -rpath $(libdir) $(libproclib_la_OBJECTS) $(libproclib_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
