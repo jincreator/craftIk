@@ -1,5 +1,5 @@
 AM_CPPFLAGS=-I$(top_srcdir)/include
-lib_LTLIBRARIES=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libproclib.la libctsession.la libctrbtree.la
+lib_LTLIBRARIES=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libproclib.la libctsession.la libctrbtree.la libctcrypt.la
 libctinit_la_SOURCES=init.c
 libctsetting_la_SOURCES=setting.c
 libctprocess_la_SOURCES=process.c session.c
@@ -10,6 +10,8 @@ libctworkerprocs_la_SOURCES=worker_procs.c packet.c proc_lib.c session.c
 libproclib_la_SOURCES= proc_lib.c event.c
 libctsession_la_SOURCES=session.c rbtree.c
 libctrbtree_la_SOURCES=rbtree.c
+libctcrypt_la_SOURCES=crypt.c
+libctcrypt_la_LDFLAGS=-lcrypto
 bin_PROGRAMS=craftik
 craftik_SOURCES=craftik.c
-craftik_LDADD=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la
+craftik_LDADD=libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la libctcrypt.la

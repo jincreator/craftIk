@@ -78,6 +78,12 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
+libctcrypt_la_LIBADD =
+am_libctcrypt_la_OBJECTS = crypt.lo
+libctcrypt_la_OBJECTS = $(am_libctcrypt_la_OBJECTS)
+libctcrypt_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(libctcrypt_la_LDFLAGS) $(LDFLAGS) -o $@
 libctevent_la_LIBADD =
 am_libctevent_la_OBJECTS = event.lo epoll.lo
 libctevent_la_OBJECTS = $(am_libctevent_la_OBJECTS)
@@ -114,7 +120,8 @@ am_craftik_OBJECTS = craftik.$(OBJEXT)
 craftik_OBJECTS = $(am_craftik_OBJECTS)
 craftik_DEPENDENCIES = libctinit.la libctprocess.la libctevent.la \
 	libctpacket.la libctmasterprocs.la libctworkerprocs.la \
-	libctsetting.la libctsession.la libctrbtree.la libproclib.la
+	libctsetting.la libctsession.la libctrbtree.la libproclib.la \
+	libctcrypt.la
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/build-aux/depcomp
 am__depfiles_maybe = depfiles
@@ -128,18 +135,18 @@ CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
 	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-SOURCES = $(libctevent_la_SOURCES) $(libctinit_la_SOURCES) \
-	$(libctmasterprocs_la_SOURCES) $(libctpacket_la_SOURCES) \
-	$(libctprocess_la_SOURCES) $(libctrbtree_la_SOURCES) \
-	$(libctsession_la_SOURCES) $(libctsetting_la_SOURCES) \
-	$(libctworkerprocs_la_SOURCES) $(libproclib_la_SOURCES) \
-	$(craftik_SOURCES)
-DIST_SOURCES = $(libctevent_la_SOURCES) $(libctinit_la_SOURCES) \
-	$(libctmasterprocs_la_SOURCES) $(libctpacket_la_SOURCES) \
-	$(libctprocess_la_SOURCES) $(libctrbtree_la_SOURCES) \
-	$(libctsession_la_SOURCES) $(libctsetting_la_SOURCES) \
-	$(libctworkerprocs_la_SOURCES) $(libproclib_la_SOURCES) \
-	$(craftik_SOURCES)
+SOURCES = $(libctcrypt_la_SOURCES) $(libctevent_la_SOURCES) \
+	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
+	$(libctpacket_la_SOURCES) $(libctprocess_la_SOURCES) \
+	$(libctrbtree_la_SOURCES) $(libctsession_la_SOURCES) \
+	$(libctsetting_la_SOURCES) $(libctworkerprocs_la_SOURCES) \
+	$(libproclib_la_SOURCES) $(craftik_SOURCES)
+DIST_SOURCES = $(libctcrypt_la_SOURCES) $(libctevent_la_SOURCES) \
+	$(libctinit_la_SOURCES) $(libctmasterprocs_la_SOURCES) \
+	$(libctpacket_la_SOURCES) $(libctprocess_la_SOURCES) \
+	$(libctrbtree_la_SOURCES) $(libctsession_la_SOURCES) \
+	$(libctsetting_la_SOURCES) $(libctworkerprocs_la_SOURCES) \
+	$(libproclib_la_SOURCES) $(craftik_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -258,7 +265,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CPPFLAGS = -I$(top_srcdir)/include
-lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libproclib.la libctsession.la libctrbtree.la
+lib_LTLIBRARIES = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libproclib.la libctsession.la libctrbtree.la libctcrypt.la
 libctinit_la_SOURCES = init.c
 libctsetting_la_SOURCES = setting.c
 libctprocess_la_SOURCES = process.c session.c
@@ -269,8 +276,10 @@ libctworkerprocs_la_SOURCES = worker_procs.c packet.c proc_lib.c session.c
 libproclib_la_SOURCES = proc_lib.c event.c
 libctsession_la_SOURCES = session.c rbtree.c
 libctrbtree_la_SOURCES = rbtree.c
+libctcrypt_la_SOURCES = crypt.c
+libctcrypt_la_LDFLAGS = -lcrypto
 craftik_SOURCES = craftik.c
-craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la
+craftik_LDADD = libctinit.la  libctprocess.la libctevent.la libctpacket.la libctmasterprocs.la libctworkerprocs.la libctsetting.la libctsession.la libctrbtree.la libproclib.la libctcrypt.la
 all: all-am
 
 .SUFFIXES:
@@ -336,6 +345,8 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+libctcrypt.la: $(libctcrypt_la_OBJECTS) $(libctcrypt_la_DEPENDENCIES) $(EXTRA_libctcrypt_la_DEPENDENCIES) 
+	$(libctcrypt_la_LINK) -rpath $(libdir) $(libctcrypt_la_OBJECTS) $(libctcrypt_la_LIBADD) $(LIBS)
 libctevent.la: $(libctevent_la_OBJECTS) $(libctevent_la_DEPENDENCIES) $(EXTRA_libctevent_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libctevent_la_OBJECTS) $(libctevent_la_LIBADD) $(LIBS)
 libctinit.la: $(libctinit_la_OBJECTS) $(libctinit_la_DEPENDENCIES) $(EXTRA_libctinit_la_DEPENDENCIES) 
@@ -410,6 +421,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/craftik.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/crypt.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/epoll.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/event.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/init.Plo@am__quote@

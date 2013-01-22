@@ -7,10 +7,6 @@ share* init() {
 		"Starting craftIk version "VERSION"\n");
 
 	share* shared=(share*)malloc(sizeof(share));
-
-	RAND_status();
-	shared->private_key = RSA_generate_key(1024, 3, NULL, NULL);
-
 	shared->prop=(properties*)malloc(sizeof(properties));
 	shared->conn=(connections*)malloc(sizeof(connections));
 	read_setting(shared);

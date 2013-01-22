@@ -62,7 +62,7 @@ typedef struct {
 	int listen_sock;
 	players* player;
 	int player_count;
-	RSA* private_key;
+	char* private_key;
 } share;
 
 #endif
