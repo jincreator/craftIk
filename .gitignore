@@ -18,7 +18,7 @@ xcuserdata
 autoscan.log
 autom4te.cache
 configure.scan
-configure.status
+config.status
 config.log
 stamp-h1
 libtool
