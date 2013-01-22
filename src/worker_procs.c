@@ -54,6 +54,10 @@ void clnt_event_procs(share* shared, craftIk_epoll* clnt_epoll, int clnt_num){
 				proc_0x0B(shared, clnt_epoll, clnt_num);
 				break;
 
+			case 0x0C:
+				proc_0x0C(shared, clnt_epoll, clnt_num);
+				break;
+
 			case 0x0D:
 				proc_0x0D(shared, clnt_epoll, clnt_num);
 				break;
