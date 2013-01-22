@@ -20,4 +20,4 @@ notifications:
       - craftik@cyrusian.com
     on_success: always
     on_failure: always
-  irc: "irc.ozinger.org#craftIk"
+  irc: "irc://ocarina.irc.ozinger.org:8080#craftIk"
