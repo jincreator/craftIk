@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.68])
-AC_INIT([craftIk], [20121028], [craftik@cyrusian.com],[craftik],
+AC_INIT([craftIk], [0.0-20130122], [craftik@cyrusian.com],[craftik],
         [http://craftIk.cyrusian.com])
 AS_VAR_SET_IF(CC,
               [AS_VAR_SET(SET_CC,[yes])],
@@ -37,12 +37,13 @@ AC_HELP_STRING([--disable-debugging],
               ]
 )
 AS_VAR_IF(SET_DEBUG,[yes],[AS_ECHO("@<:@craftIk@:>@Debugging enabled...")])
+AC_CONFIG_SRCDIR([config.h.in])
+AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE([enable])
 LT_INIT
-AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
 
 # Checks for programs.
 AC_PROG_AWK
